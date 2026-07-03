@@ -5,17 +5,28 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
   >
 
-  <meta name="theme-color" content="#080b12">
+  <meta name="theme-color" content="#070A11">
 
   <title>Video Reward</title>
 
-  <!-- Telegram Mini Apps official script -->
-  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
+    :root {
+      --bg: #070a11;
+      --surface: #101521;
+      --surface-2: #171d2b;
+      --primary: #7c5cff;
+      --primary-2: #a56cff;
+      --cyan: #39d5ff;
+      --text: #ffffff;
+      --muted: #9299aa;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -23,29 +34,22 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    :root {
-      --bg: #080b12;
-      --card: rgba(20, 25, 38, 0.82);
-      --card-light: rgba(255, 255, 255, 0.06);
-      --text: #ffffff;
-      --muted: #949bad;
-      --primary: #7657ff;
-      --primary-light: #9d72ff;
-      --cyan: #22d3ee;
-      --border: rgba(255, 255, 255, 0.08);
+    html {
+      background: var(--bg);
     }
 
     body {
       min-height: 100vh;
+
       background:
         radial-gradient(
-          circle at 10% 0%,
-          rgba(118, 87, 255, 0.22),
-          transparent 35%
+          circle at 0% 0%,
+          rgba(124, 92, 255, 0.22),
+          transparent 32%
         ),
         radial-gradient(
-          circle at 100% 30%,
-          rgba(34, 211, 238, 0.12),
+          circle at 100% 35%,
+          rgba(57, 213, 255, 0.11),
           transparent 30%
         ),
         var(--bg);
@@ -53,35 +57,37 @@
       color: var(--text);
 
       font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
+        Arial,
+        Helvetica,
         sans-serif;
 
       padding-bottom: 95px;
     }
 
-    button {
+    button,
+    input {
       font: inherit;
+    }
+
+    button {
+      cursor: pointer;
     }
 
     .app {
       width: 100%;
       max-width: 760px;
-      margin: auto;
+      margin: 0 auto;
     }
 
     .header {
-      padding:
-        calc(18px + env(safe-area-inset-top))
-        18px
-        16px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        17px
+        15px;
     }
 
     .brand {
@@ -91,14 +97,13 @@
     }
 
     .logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 15px;
+      width: 45px;
+      height: 45px;
 
       display: grid;
       place-items: center;
 
-      font-size: 22px;
+      border-radius: 15px;
 
       background:
         linear-gradient(
@@ -108,13 +113,902 @@
         );
 
       box-shadow:
-        0 10px 30px rgba(118, 87, 255, 0.35);
+        0 12px 32px rgba(124, 92, 255, 0.3);
+
+      font-size: 20px;
     }
 
-    .brand-text h1 {
+    .brand-copy h1 {
       font-size: 17px;
-      font-weight: 750;
+      font-weight: 800;
     }
 
-    .brand-text p {
-     
+    .brand-copy p {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .avatar {
+      width: 43px;
+      height: 43px;
+
+      border: 1px solid var(--border);
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      padding: 0 16px;
+    }
+
+    .search-box {
+      height: 53px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 0 16px;
+
+      border: 1px solid var(--border);
+      border-radius: 17px;
+
+      background: rgba(16, 21, 33, 0.85);
+
+      box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .search-icon {
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .search-box input {
+      width: 100%;
+
+      border: 0;
+      outline: 0;
+
+      background: transparent;
+      color: white;
+
+      font-size: 14px;
+    }
+
+    .search-box input::placeholder {
+      color: var(--muted);
+    }
+
+    .hero {
+      min-height: 205px;
+
+      margin-top: 17px;
+      padding: 24px;
+
+      position: relative;
+
+      display: flex;
+      align-items: flex-end;
+
+      overflow: hidden;
+
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 25px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(8, 10, 18, 0.95),
+          rgba(8, 10, 18, 0.25)
+        ),
+        linear-gradient(
+          135deg,
+          #7654ff,
+          #117d9b
+        );
+
+      box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-orb {
+      width: 115px;
+      height: 115px;
+
+      position: absolute;
+      right: -15px;
+      top: -18px;
+
+      border-radius: 50%;
+
+      background: rgba(255, 255, 255, 0.12);
+
+      filter: blur(1px);
+    }
+
+    .hero-play {
+      width: 69px;
+      height: 69px;
+
+      position: absolute;
+      right: 27px;
+      top: 39px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 50%;
+
+      background: rgba(255, 255, 255, 0.1);
+
+      font-size: 25px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 72%;
+    }
+
+    .badge {
+      display: inline-block;
+
+      padding: 6px 9px;
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+
+      background: rgba(255, 255, 255, 0.1);
+
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .hero h2 {
+      margin-top: 11px;
+
+      font-size: 25px;
+      line-height: 1.12;
+    }
+
+    .hero p {
+      margin-top: 8px;
+
+      color: rgba(255, 255, 255, 0.7);
+
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .primary-button {
+      margin-top: 15px;
+
+      padding: 11px 16px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background: white;
+      color: #10131d;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .stats {
+      margin-top: 16px;
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 10px;
+    }
+
+    .stat-card {
+      padding: 16px 8px;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: rgba(16, 21, 33, 0.85);
+
+      text-align: center;
+    }
+
+    .stat-card strong {
+      display: block;
+
+      font-size: 18px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          #a98aff
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .stat-card span {
+      display: block;
+
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 25px;
+    }
+
+    .section-header {
+      margin-bottom: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header h3 {
+      font-size: 17px;
+    }
+
+    .section-header button {
+      border: 0;
+
+      background: transparent;
+      color: var(--primary-2);
+
+      font-size: 11px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+    }
+
+    .video-card {
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: 19px;
+
+      background: rgba(16, 21, 33, 0.9);
+
+      transition: transform 0.2s ease;
+    }
+
+    .video-card:active {
+      transform: scale(0.97);
+    }
+
+    .thumbnail {
+      position: relative;
+
+      aspect-ratio: 16 / 10;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        radial-gradient(
+          circle at 70% 20%,
+          rgba(255, 255, 255, 0.2),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #6245e8,
+          #156e8d
+        );
+    }
+
+    .thumbnail.two {
+      background:
+        radial-gradient(
+          circle at 25% 20%,
+          rgba(255, 255, 255, 0.18),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #b54780,
+          #5637bc
+        );
+    }
+
+    .play-button {
+      width: 43px;
+      height: 43px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: rgba(5, 8, 14, 0.65);
+
+      font-size: 15px;
+    }
+
+    .new-badge {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+
+      padding: 5px 8px;
+
+      border-radius: 15px;
+
+      background: var(--primary);
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .card-body {
+      padding: 12px;
+    }
+
+    .card-body h4 {
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .card-body p {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .bottom-nav {
+      width: 100%;
+      max-width: 760px;
+
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+
+      transform: translateX(-50%);
+
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+
+      padding:
+        9px
+        12px
+        calc(9px + env(safe-area-inset-bottom));
+
+      border-top: 1px solid var(--border);
+
+      background: rgba(8, 11, 18, 0.94);
+
+      backdrop-filter: blur(20px);
+
+      z-index: 50;
+    }
+
+    .nav-button {
+      padding: 3px;
+
+      border: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      gap: 5px;
+
+      background: transparent;
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .nav-icon {
+      font-size: 19px;
+    }
+
+    .nav-button.active {
+      color: #a78cff;
+    }
+
+    .toast {
+      position: fixed;
+      top: calc(18px + env(safe-area-inset-top));
+      left: 50%;
+
+      z-index: 200;
+
+      width: calc(100% - 32px);
+      max-width: 420px;
+
+      padding: 13px 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 15px;
+
+      background: rgba(19, 24, 36, 0.96);
+      color: white;
+
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.35);
+
+      font-size: 12px;
+
+      transform:
+        translate(-50%, -130%);
+
+      opacity: 0;
+
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    .toast.show {
+      transform:
+        translate(-50%, 0);
+
+      opacity: 1;
+    }
+
+    @media (min-width: 700px) {
+      .video-grid {
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="toast" id="toast">
+    Welcome to Video Reward
+  </div>
+
+  <main class="app">
+
+    <header class="header">
+
+      <div class="brand">
+
+        <div class="logo">
+          ▶
+        </div>
+
+        <div class="brand-copy">
+          <h1>Video Reward</h1>
+
+          <p id="welcomeText">
+            Discover. Watch. Earn.
+          </p>
+        </div>
+
+      </div>
+
+      <button
+        class="avatar"
+        id="avatar"
+        type="button"
+      >
+        U
+      </button>
+
+    </header>
+
+    <div class="content">
+
+      <label class="search-box">
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search videos..."
+          autocomplete="off"
+        >
+
+      </label>
+
+      <section class="hero">
+
+        <div class="hero-orb"></div>
+
+        <div class="hero-play">
+          ▶
+        </div>
+
+        <div class="hero-content">
+
+          <span class="badge">
+            FEATURED
+          </span>
+
+          <h2>
+            Discover premium videos
+          </h2>
+
+          <p>
+            Explore fresh content and unlock videos
+            through supported actions.
+          </p>
+
+          <button
+            class="primary-button"
+            id="exploreButton"
+            type="button"
+          >
+            Explore Now
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="stats">
+
+        <article class="stat-card">
+          <strong id="coinBalance">0</strong>
+          <span>MY COINS</span>
+        </article>
+
+        <article class="stat-card">
+          <strong id="taskCount">0</strong>
+          <span>TASKS</span>
+        </article>
+
+        <article class="stat-card">
+          <strong id="videoCount">2</strong>
+          <span>VIDEOS</span>
+        </article>
+
+      </section>
+
+      <section
+        class="section"
+        id="featuredSection"
+      >
+
+        <div class="section-header">
+
+          <h3>
+            Featured Videos
+          </h3>
+
+          <button
+            type="button"
+            id="seeAllButton"
+          >
+            See all
+          </button>
+
+        </div>
+
+        <div class="video-grid">
+
+          <article
+            class="video-card"
+            data-title="Premium Video Demo"
+          >
+
+            <div class="thumbnail">
+
+              <span class="new-badge">
+                NEW
+              </span>
+
+              <div class="play-button">
+                ▶
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <h4>
+                Premium Video Demo
+              </h4>
+
+              <p>
+                Entertainment · Demo
+              </p>
+
+            </div>
+
+          </article>
+
+          <article
+            class="video-card"
+            data-title="Trending Video Demo"
+          >
+
+            <div class="thumbnail two">
+
+              <div class="play-button">
+                ▶
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <h4>
+                Trending Video Demo
+              </h4>
+
+              <p>
+                Trending · Demo
+              </p>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+
+    <button
+      class="nav-button active"
+      type="button"
+    >
+      <span class="nav-icon">⌂</span>
+      <span>Home</span>
+    </button>
+
+    <button
+      class="nav-button"
+      type="button"
+      data-page="Search"
+    >
+      <span class="nav-icon">⌕</span>
+      <span>Search</span>
+    </button>
+
+    <button
+      class="nav-button"
+      type="button"
+      data-page="Earn"
+    >
+      <span class="nav-icon">◆</span>
+      <span>Earn</span>
+    </button>
+
+    <button
+      class="nav-button"
+      type="button"
+      data-page="Wallet"
+    >
+      <span class="nav-icon">◈</span>
+      <span>Wallet</span>
+    </button>
+
+    <button
+      class="nav-button"
+      type="button"
+      data-page="Profile"
+    >
+      <span class="nav-icon">●</span>
+      <span>Profile</span>
+    </button>
+
+  </nav>
+
+  <script>
+    "use strict";
+
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      window.setTimeout(function () {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    function setupTelegram() {
+      try {
+        if (
+          !window.Telegram ||
+          !window.Telegram.WebApp
+        ) {
+          return;
+        }
+
+        const tg = window.Telegram.WebApp;
+
+        tg.ready();
+
+        if (
+          typeof tg.expand === "function"
+        ) {
+          tg.expand();
+        }
+
+        const user =
+          tg.initDataUnsafe &&
+          tg.initDataUnsafe.user
+            ? tg.initDataUnsafe.user
+            : null;
+
+        if (!user) {
+          return;
+        }
+
+        const displayName =
+          user.first_name ||
+          user.username ||
+          "User";
+
+        document.getElementById(
+          "welcomeText"
+        ).textContent =
+          "Welcome, " + displayName;
+
+        const avatar =
+          document.getElementById("avatar");
+
+        if (user.photo_url) {
+          const image =
+            document.createElement("img");
+
+          image.src = user.photo_url;
+          image.alt = "Profile";
+
+          avatar.textContent = "";
+          avatar.appendChild(image);
+        } else {
+          avatar.textContent =
+            displayName
+              .charAt(0)
+              .toUpperCase();
+        }
+      } catch (error) {
+        console.error(
+          "Telegram setup error:",
+          error
+        );
+      }
+    }
+
+    document
+      .getElementById("exploreButton")
+      .addEventListener(
+        "click",
+        function () {
+          document
+            .getElementById(
+              "featuredSection"
+            )
+            .scrollIntoView({
+              behavior: "smooth"
+            });
+        }
+      );
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "input",
+        function (event) {
+          const query =
+            event.target.value
+              .trim()
+              .toLowerCase();
+
+          const cards =
+            document.querySelectorAll(
+              ".video-card"
+            );
+
+          cards.forEach(function (card) {
+            const title =
+              card.dataset.title
+                .toLowerCase();
+
+            card.style.display =
+              title.includes(query)
+                ? ""
+                : "none";
+          });
+        }
+      );
+
+    document
+      .querySelectorAll("[data-page]")
+      .forEach(function (button) {
+        button.addEventListener(
+          "click",
+          function () {
+            showToast(
+              button.dataset.page +
+              " page is coming next."
+            );
+          }
+        );
+      });
+
+    document
+      .querySelectorAll(".video-card")
+      .forEach(function (card) {
+        card.addEventListener(
+          "click",
+          function () {
+            showToast(
+              "Video unlock system is coming next."
+            );
+          }
+        );
+      });
+
+    document
+      .getElementById("seeAllButton")
+      .addEventListener(
+        "click",
+        function () {
+          showToast(
+            "All videos page is coming next."
+          );
+        }
+      );
+
+    document
+      .getElementById("avatar")
+      .addEventListener(
+        "click",
+        function () {
+          showToast(
+            "Profile page is coming next."
+          );
+        }
+      );
+
+    setupTelegram();
+  </script>
+
+</body>
+</html>
