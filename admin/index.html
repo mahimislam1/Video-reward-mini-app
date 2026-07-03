@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#070a11">
+
+  <title>Video Reward Admin</title>
+
+  <style>
+    :root {
+      --bg: #070a11;
+      --surface: #101521;
+      --surface2: #171d2b;
+      --primary: #7c5cff;
+      --primary2: #a56cff;
+      --cyan: #39d5ff;
+      --green: #32d583;
+      --red: #ff5f6d;
+      --yellow: #fdb022;
+      --text: #ffffff;
+      --muted: #9299aa;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 0% 0%,
+          rgba(124, 92, 255, 0.22),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 100% 35%,
+          rgba(57, 213, 255, 0.1),
+          transparent 30%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    .header {
+      padding:
+        calc(20px + env(safe-area-inset-top))
+        17px
+        18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--cyan)
+        );
+
+      box-shadow:
+        0 12px 32px rgba(124, 92, 255, 0.3);
+
+      font-size: 20px;
+    }
+
+    .brand h1 {
+      font-size: 18px;
+    }
+
+    .brand p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .admin-badge {
+      padding: 8px 11px;
+
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      border-radius: 20px;
+
+      background: rgba(124, 92, 255, 0.12);
+      color: #c7b8ff;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 18px 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .stat {
+      padding: 18px;
+
+      border: 1px solid var(--border);
+      border-radius: 19px;
+
+      background: rgba(16, 21, 33, 0.88);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 8px;
+
+      font-size: 25px;
+    }
+
+    .tabs {
+      margin-top: 20px;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+
+      padding: 6px;
+
+      border: 1px solid var(--border);
+      border-radius: 17px;
+
+      background: rgba(16, 21, 33, 0.85);
+    }
+
+    .tab {
+      padding: 11px 5px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background: transparent;
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary2)
+        );
+
+      color: white;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 13px;
+    }
+
+    .section-head h2 {
+      font-size: 18px;
+    }
+
+    .add-button {
+      padding: 10px 14px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary2)
+        );
+
+      color: white;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .panel {
+      padding: 17px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background: rgba(16, 21, 33, 0.9);
+    }
+
+    .empty {
+      padding: 35px 15px;
+
+      text-align: center;
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    .search {
+      width: 100%;
+      height: 50px;
+
+      padding: 0 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 15px;
+
+      outline: 0;
+
+      background: var(--surface);
+      color: white;
+
+      font-size: 13px;
+    }
+
+    .form {
+      display: none;
+
+      margin-bottom: 15px;
+      padding: 17px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background: rgba(16, 21, 33, 0.95);
+    }
+
+    .form.show {
+      display: block;
+    }
+
+    .form h3 {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .field {
+      margin-top: 12px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+
+      padding: 13px 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      outline: 0;
+
+      background: var(--surface2);
+      color: white;
+
+      font-size: 12px;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      margin-top: 15px;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .save-button,
+    .cancel-button {
+      padding: 12px;
+
+      border: 0;
+      border-radius: 12px;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .save-button {
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary2)
+        );
+
+      color: white;
+    }
+
+    .cancel-button {
+      background: var(--surface2);
+      color: var(--muted);
+    }
+
+    .notice {
+      margin-top: 14px;
+
+      padding: 13px 15px;
+
+      border: 1px solid rgba(57, 213, 255, 0.15);
+      border-radius: 14px;
+
+      background: rgba(57, 213, 255, 0.07);
+      color: #bdefff;
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      top: calc(18px + env(safe-area-inset-top));
+      left: 50%;
+
+      z-index: 500;
+
+      width: calc(100% - 32px);
+      max-width: 420px;
+
+      padding: 14px 16px;
+
+      border: 1px solid var(--border);
+      border-radius: 15px;
+
+      background: rgba(19, 24, 36, 0.98);
+      color: white;
+
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.35);
+
+      font-size: 12px;
+
+      transform: translate(-50%, -140%);
+      opacity: 0;
+
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @media (min-width: 700px) {
+      .stats {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="toast" id="toast">
+    Admin Panel
+  </div>
+
+  <main class="app">
+
+    <header class="header">
+
+      <div class="brand">
+
+        <div class="logo">
+          ◆
+        </div>
+
+        <div>
+          <h1>Video Reward Admin</h1>
+          <p>Management Dashboard</p>
+        </div>
+
+      </div>
+
+      <div class="admin-badge">
+        ADMIN
+      </div>
+
+    </header>
+
+    <div class="content">
+
+      <section class="stats">
+
+        <article class="stat">
+          <span>TOTAL USERS</span>
+          <strong id="totalUsers">0</strong>
+        </article>
+
+        <article class="stat">
+          <span>VIDEOS</span>
+          <strong id="totalVideos">0</strong>
+        </article>
+
+        <article class="stat">
+          <span>TASKS</span>
+          <strong id="totalTasks">0</strong>
+        </article>
+
+        <article class="stat">
+          <span>PENDING WITHDRAW</span>
+          <strong id="pendingWithdrawals">0</strong>
+        </article>
+
+      </section>
+
+      <nav class="tabs">
+
+        <button
+          class="tab active"
+          data-tab="videos"
+          type="button"
+        >
+          Videos
+        </button>
+
+        <button
+          class="tab"
+          data-tab="tasks"
+          type="button"
+        >
+          Tasks
+        </button>
+
+        <button
+          class="tab"
+          data-tab="users"
+          type="button"
+        >
+          Users
+        </button>
+
+        <button
+          class="tab"
+          data-tab="withdrawals"
+          type="button"
+        >
+          Withdraw
+        </button>
+
+      </nav>
+
+      <section
+        class="page active"
+        id="videos"
+      >
+
+        <div class="section">
+
+          <div class="section-head">
+
+            <h2>Video Management</h2>
+
+            <button
+              class="add-button"
+              id="addVideoButton"
+              type="button"
+            >
+              + Add Video
+            </button>
+
+          </div>
+
+          <form
+            class="form"
+            id="videoForm"
+          >
+
+            <h3>Add New Video</h3>
+
+            <div class="field">
+              <label>VIDEO TITLE</label>
+
+              <input
+                id="videoTitle"
+                type="text"
+                placeholder="Enter video title"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label>DESCRIPTION</label>
+
+              <textarea
+                id="videoDescription"
+                placeholder="Video description"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label>THUMBNAIL URL</label>
+
+              <input
+                id="videoThumbnail"
+                type="url"
+                placeholder="https://..."
+              >
+            </div>
+
+            <div class="field">
+              <label>FINAL VIDEO LINK</label>
+
+              <input
+                id="videoLink"
+                type="url"
+                placeholder="https://..."
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label>CATEGORY</label>
+
+              <input
+                id="videoCategory"
+                type="text"
+                placeholder="Entertainment"
+              >
+            </div>
+
+            <div class="form-actions">
+
+              <button
+                class="cancel-button"
+                id="cancelVideo"
+                type="button"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="save-button"
+                type="submit"
+              >
+                Save Video
+              </button>
+
+            </div>
+
+          </form>
+
+          <div class="panel">
+
+            <div class="empty" id="videoList">
+              No videos available yet.
+            </div>
+
+          </div>
+
+          <div class="notice">
+            Video unlock এবং Task earning আলাদা থাকবে।
+            Video ad flow complete হলে শুধু final video
+            link open হবে। Coin reward হবে না।
+          </div>
+
+        </div>
+
+      </section>
+
+      <section
+        class="page"
+        id="tasks"
+      >
+
+        <div class="section">
+
+          <div class="section-head">
+
+            <h2>Task Management</h2>
+
+            <button
+              class="add-button"
+              id="addTaskButton"
+              type="button"
+            >
+              + Add Task
+            </button>
+
+          </div>
+
+          <form
+            class="form"
+            id="taskForm"
+          >
+
+            <h3>Add New Task</h3>
+
+            <div class="field">
+              <label>TASK TITLE</label>
+
+              <input
+                id="taskTitle"
+                type="text"
+                placeholder="Enter task title"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label>DESCRIPTION</label>
+
+              <textarea
+                id="taskDescription"
+                placeholder="Task instructions"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label>TASK LINK</label>
+
+              <input
+                id="taskLink"
+                type="url"
+                placeholder="https://..."
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label>REWARD COINS</label>
+
+              <input
+                id="taskReward"
+                type="number"
+                min="0"
+                placeholder="100"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label>TASK TYPE</label>
+
+              <select id="taskType">
+
+                <option value="visit">
+                  Visit Link
+                </option>
+
+                <option value="telegram">
+                  Telegram
+                </option>
+
+                <option value="social">
+                  Social
+                </option>
+
+                <option value="custom">
+                  Custom
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="form-actions">
+
+              <button
+                class="cancel-button"
+                id="cancelTask"
+                type="button"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="save-button"
+                type="submit"
+              >
+                Save Task
+              </button>
+
+            </div>
+
+          </form>
+
+          <div class="panel">
+
+            <div class="empty" id="taskList">
+              No tasks available yet.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section
+        class="page"
+        id="users"
+      >
+
+        <div class="section">
+
+          <div class="section-head">
+            <h2>User Management</h2>
+          </div>
+
+          <input
+            class="search"
+            id="userSearch"
+            type="search"
+            placeholder="Search username or Telegram ID..."
+          >
+
+          <div
+            class="panel"
+            style="margin-top: 13px;"
+          >
+
+            <div class="empty">
+              User database connection coming next.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section
+        class="page"
+        id="withdrawals"
+      >
+
+        <div class="section">
+
+          <div class="section-head">
+            <h2>Withdrawal Requests</h2>
+          </div>
+
+          <div class="panel">
+
+            <div class="empty">
+              No pending withdrawal requests.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <script>
+    "use strict";
+
+    const toast =
+      document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      window.setTimeout(function () {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(function (button) {
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            document
+              .querySelectorAll(".tab")
+              .forEach(function (tab) {
+                tab.classList.remove("active");
+              });
+
+            document
+              .querySelectorAll(".page")
+              .forEach(function (page) {
+                page.classList.remove("active");
+              });
+
+            button.classList.add("active");
+
+            document
+              .getElementById(
+                button.dataset.tab
+              )
+              .classList.add("active");
+
+          }
+        );
+
+      });
+
+    const videoForm =
+      document.getElementById("videoForm");
+
+    const taskForm =
+      document.getElementById("taskForm");
+
+    document
+      .getElementById("addVideoButton")
+      .addEventListener(
+        "click",
+        function () {
+          videoForm.classList.add("show");
+        }
+      );
+
+    document
+      .getElementById("cancelVideo")
+      .addEventListener(
+        "click",
+        function () {
+          videoForm.classList.remove("show");
+          videoForm.reset();
+        }
+      );
+
+    document
+      .getElementById("addTaskButton")
+      .addEventListener(
+        "click",
+        function () {
+          taskForm.classList.add("show");
+        }
+      );
+
+    document
+      .getElementById("cancelTask")
+      .addEventListener(
+        "click",
+        function () {
+          taskForm.classList.remove("show");
+          taskForm.reset();
+        }
+      );
+
+    videoForm.addEventListener(
+      "submit",
+      function (event) {
+        event.preventDefault();
+
+        showToast(
+          "Video database connection is next."
+        );
+      }
+    );
+
+    taskForm.addEventListener(
+      "submit",
+      function (event) {
+        event.preventDefault();
+
+        showToast(
+          "Task database connection is next."
+        );
+      }
+    );
+
+    showToast("Admin Panel Ready");
+  </script>
+
+</body>
+</html>
