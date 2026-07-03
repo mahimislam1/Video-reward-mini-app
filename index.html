@@ -835,17 +835,20 @@
     </button>
 
   </nav>
-
-  <script>
+<script>
   "use strict";
 
   const TELEGRAM_AUTH_URL =
     "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/telegram-auth";
 
+  const GET_HOME_DATA_URL =
+    "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/get-home-data";
+
   const toast = document.getElementById("toast");
 
   let currentUser = null;
   let currentWallet = null;
+  let homeVideos = [];
 
   function showToast(message) {
     toast.textContent = message;
@@ -862,6 +865,7 @@
 
     document.getElementById("coinBalance").textContent = "—";
     document.getElementById("taskCount").textContent = "—";
+    document.getElementById("videoCount").textContent = "—";
   }
 
   function setTelegramProfile(user) {
@@ -921,17 +925,241 @@
         "coinBalance"
       ).textContent = "0";
     }
+  }
 
-    const completedTasks =
-      data.stats &&
-      typeof data.stats.completed_tasks !== "undefined"
-        ? data.stats.completed_tasks
-        : 0;
+  function getVideoCategory(video) {
+    if (
+      video.video_categories &&
+      video.video_categories.name
+    ) {
+      return video.video_categories.name;
+    }
 
-    document.getElementById(
-      "taskCount"
-    ).textContent =
-      Number(completedTasks).toLocaleString();
+    return "Video";
+  }
+
+  function renderVideos(videos) {
+    const videoGrid =
+      document.querySelector(".video-grid");
+
+    if (!videoGrid) {
+      return;
+    }
+
+    videoGrid.innerHTML = "";
+
+    if (!videos.length) {
+      videoGrid.innerHTML = `
+        <div style="
+          grid-column: 1 / -1;
+          padding: 28px 18px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 19px;
+          background: rgba(16,21,33,0.9);
+          text-align: center;
+          color: #9299aa;
+          font-size: 12px;
+        ">
+          No videos available yet.
+        </div>
+      `;
+
+      return;
+    }
+
+    videos.forEach(function (video, index) {
+      const card =
+        document.createElement("article");
+
+      card.className = "video-card";
+
+      card.dataset.title =
+        video.title || "";
+
+      card.dataset.videoId =
+        video.id || "";
+
+      const thumbnail =
+        document.createElement("div");
+
+      thumbnail.className =
+        index % 2 === 0
+          ? "thumbnail"
+          : "thumbnail two";
+
+      if (video.thumbnail_url) {
+        thumbnail.style.backgroundImage =
+          "linear-gradient(" +
+          "rgba(5,8,14,0.15)," +
+          "rgba(5,8,14,0.35)" +
+          "), url('" +
+          video.thumbnail_url +
+          "')";
+
+        thumbnail.style.backgroundSize =
+          "cover";
+
+        thumbnail.style.backgroundPosition =
+          "center";
+      }
+
+      if (video.is_featured) {
+        const badge =
+          document.createElement("span");
+
+        badge.className = "new-badge";
+        badge.textContent = "FEATURED";
+
+        thumbnail.appendChild(badge);
+      }
+
+      const playButton =
+        document.createElement("div");
+
+      playButton.className = "play-button";
+      playButton.textContent = "▶";
+
+      thumbnail.appendChild(playButton);
+
+      const cardBody =
+        document.createElement("div");
+
+      cardBody.className = "card-body";
+
+      const title =
+        document.createElement("h4");
+
+      title.textContent =
+        video.title || "Untitled Video";
+
+      const meta =
+        document.createElement("p");
+
+      let metaText =
+        getVideoCategory(video);
+
+      if (video.is_premium) {
+        metaText += " · Premium";
+      }
+
+      if (
+        Number(video.eligible_reward_coins || 0) > 0
+      ) {
+        metaText +=
+          " · +" +
+          Number(
+            video.eligible_reward_coins
+          ).toLocaleString() +
+          " coins";
+      }
+
+      meta.textContent = metaText;
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(meta);
+
+      card.appendChild(thumbnail);
+      card.appendChild(cardBody);
+
+      card.addEventListener(
+        "click",
+        function () {
+          handleVideoClick(video);
+        }
+      );
+
+      videoGrid.appendChild(card);
+    });
+  }
+
+  function handleVideoClick(video) {
+    if (!currentUser) {
+      showToast(
+        "Please wait for account connection."
+      );
+
+      return;
+    }
+
+    showToast(
+      "Video unlock system is coming next."
+    );
+
+    console.log(
+      "Selected video:",
+      video
+    );
+  }
+
+  async function loadHomeData() {
+    try {
+      const response = await fetch(
+        GET_HOME_DATA_URL,
+        {
+          method: "GET"
+        }
+      );
+
+      const data = await response.json();
+
+      if (
+        !response.ok ||
+        !data.success
+      ) {
+        throw new Error(
+          data.error ||
+          "Home data loading failed"
+        );
+      }
+
+      homeVideos =
+        Array.isArray(data.videos)
+          ? data.videos
+          : [];
+
+      const stats =
+        data.stats || {};
+
+      document.getElementById(
+        "videoCount"
+      ).textContent =
+        Number(
+          stats.video_count || 0
+        ).toLocaleString();
+
+      document.getElementById(
+        "taskCount"
+      ).textContent =
+        Number(
+          stats.task_count || 0
+        ).toLocaleString();
+
+      renderVideos(homeVideos);
+
+      console.log(
+        "Home data:",
+        data
+      );
+    } catch (error) {
+      console.error(
+        "Home data error:",
+        error
+      );
+
+      document.getElementById(
+        "videoCount"
+      ).textContent = "0";
+
+      document.getElementById(
+        "taskCount"
+      ).textContent = "0";
+
+      renderVideos([]);
+
+      showToast(
+        "Videos could not be loaded"
+      );
+    }
   }
 
   async function authenticateTelegram() {
@@ -1012,6 +1240,8 @@
         "Authenticated account:",
         data
       );
+
+      await loadHomeData();
     } catch (error) {
       console.error(
         "Telegram authentication error:",
@@ -1024,6 +1254,10 @@
 
       document.getElementById(
         "taskCount"
+      ).textContent = "0";
+
+      document.getElementById(
+        "videoCount"
       ).textContent = "0";
 
       const tg =
@@ -1085,8 +1319,9 @@
 
         cards.forEach(function (card) {
           const title =
-            card.dataset.title
-              .toLowerCase();
+            (
+              card.dataset.title || ""
+            ).toLowerCase();
 
           card.style.display =
             title.includes(query)
@@ -1111,25 +1346,13 @@
     });
 
   document
-    .querySelectorAll(".video-card")
-    .forEach(function (card) {
-      card.addEventListener(
-        "click",
-        function () {
-          showToast(
-            "Video unlock system is coming next."
-          );
-        }
-      );
-    });
-
-  document
     .getElementById("seeAllButton")
     .addEventListener(
       "click",
       function () {
         showToast(
-          "All videos page is coming next."
+          homeVideos.length +
+          " videos available."
         );
       }
     );
@@ -1153,6 +1376,6 @@
     );
 
   authenticateTelegram();
-    </script>
+        </script>
 </body>
 </html>
