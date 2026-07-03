@@ -837,178 +837,322 @@
   </nav>
 
   <script>
-    "use strict";
+  "use strict";
 
-    const toast = document.getElementById("toast");
+  const TELEGRAM_AUTH_URL =
+    "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/telegram-auth";
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
+  const toast = document.getElementById("toast");
 
-      window.setTimeout(function () {
-        toast.classList.remove("show");
-      }, 2200);
+  let currentUser = null;
+  let currentWallet = null;
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    window.setTimeout(function () {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+
+  function setLoadingState() {
+    document.getElementById("welcomeText").textContent =
+      "Connecting your account...";
+
+    document.getElementById("coinBalance").textContent = "—";
+    document.getElementById("taskCount").textContent = "—";
+  }
+
+  function setTelegramProfile(user) {
+    if (!user) {
+      return;
     }
 
-    function setupTelegram() {
-      try {
-        if (
-          !window.Telegram ||
-          !window.Telegram.WebApp
-        ) {
-          return;
+    const displayName =
+      user.first_name ||
+      user.username ||
+      "User";
+
+    document.getElementById("welcomeText").textContent =
+      "Welcome, " + displayName;
+
+    const avatar =
+      document.getElementById("avatar");
+
+    avatar.textContent = "";
+
+    if (user.photo_url) {
+      const image =
+        document.createElement("img");
+
+      image.src = user.photo_url;
+      image.alt = "Profile";
+
+      image.onerror = function () {
+        avatar.textContent =
+          displayName.charAt(0).toUpperCase();
+      };
+
+      avatar.appendChild(image);
+    } else {
+      avatar.textContent =
+        displayName.charAt(0).toUpperCase();
+    }
+  }
+
+  function updateAccountUI(data) {
+    currentUser = data.user || null;
+    currentWallet = data.wallet || null;
+
+    if (currentUser) {
+      setTelegramProfile(currentUser);
+    }
+
+    if (currentWallet) {
+      document.getElementById(
+        "coinBalance"
+      ).textContent =
+        Number(
+          currentWallet.coin_balance || 0
+        ).toLocaleString();
+    } else {
+      document.getElementById(
+        "coinBalance"
+      ).textContent = "0";
+    }
+
+    const completedTasks =
+      data.stats &&
+      typeof data.stats.completed_tasks !== "undefined"
+        ? data.stats.completed_tasks
+        : 0;
+
+    document.getElementById(
+      "taskCount"
+    ).textContent =
+      Number(completedTasks).toLocaleString();
+  }
+
+  async function authenticateTelegram() {
+    try {
+      if (
+        !window.Telegram ||
+        !window.Telegram.WebApp
+      ) {
+        throw new Error(
+          "Telegram WebApp is unavailable"
+        );
+      }
+
+      const tg = window.Telegram.WebApp;
+
+      tg.ready();
+
+      if (
+        typeof tg.expand === "function"
+      ) {
+        tg.expand();
+      }
+
+      const telegramUser =
+        tg.initDataUnsafe &&
+        tg.initDataUnsafe.user
+          ? tg.initDataUnsafe.user
+          : null;
+
+      if (telegramUser) {
+        setTelegramProfile(telegramUser);
+      }
+
+      const initData = tg.initData;
+
+      if (!initData) {
+        throw new Error(
+          "Telegram initData is missing"
+        );
+      }
+
+      setLoadingState();
+
+      const response = await fetch(
+        TELEGRAM_AUTH_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            initData: initData
+          })
         }
+      );
 
-        const tg = window.Telegram.WebApp;
+      const data = await response.json();
 
-        tg.ready();
+      if (
+        !response.ok ||
+        !data.success
+      ) {
+        throw new Error(
+          data.error ||
+          "Authentication failed"
+        );
+      }
 
-        if (
-          typeof tg.expand === "function"
-        ) {
-          tg.expand();
-        }
+      updateAccountUI(data);
 
-        const user =
-          tg.initDataUnsafe &&
+      showToast(
+        "Account connected successfully"
+      );
+
+      console.log(
+        "Authenticated account:",
+        data
+      );
+    } catch (error) {
+      console.error(
+        "Telegram authentication error:",
+        error
+      );
+
+      document.getElementById(
+        "coinBalance"
+      ).textContent = "0";
+
+      document.getElementById(
+        "taskCount"
+      ).textContent = "0";
+
+      const tg =
+        window.Telegram &&
+        window.Telegram.WebApp
+          ? window.Telegram.WebApp
+          : null;
+
+      if (
+        tg &&
+        tg.initDataUnsafe &&
+        tg.initDataUnsafe.user
+      ) {
+        setTelegramProfile(
           tg.initDataUnsafe.user
-            ? tg.initDataUnsafe.user
-            : null;
-
-        if (!user) {
-          return;
-        }
-
-        const displayName =
-          user.first_name ||
-          user.username ||
-          "User";
-
+        );
+      } else {
         document.getElementById(
           "welcomeText"
         ).textContent =
-          "Welcome, " + displayName;
-
-        const avatar =
-          document.getElementById("avatar");
-
-        if (user.photo_url) {
-          const image =
-            document.createElement("img");
-
-          image.src = user.photo_url;
-          image.alt = "Profile";
-
-          avatar.textContent = "";
-          avatar.appendChild(image);
-        } else {
-          avatar.textContent =
-            displayName
-              .charAt(0)
-              .toUpperCase();
-        }
-      } catch (error) {
-        console.error(
-          "Telegram setup error:",
-          error
-        );
+          "Open inside Telegram";
       }
-    }
 
-    document
-      .getElementById("exploreButton")
-      .addEventListener(
-        "click",
-        function () {
-          document
-            .getElementById(
-              "featuredSection"
-            )
-            .scrollIntoView({
-              behavior: "smooth"
-            });
-        }
+      showToast(
+        "Account connection failed"
       );
+    }
+  }
 
-    document
-      .getElementById("searchInput")
-      .addEventListener(
-        "input",
-        function (event) {
-          const query =
-            event.target.value
-              .trim()
+  document
+    .getElementById("exploreButton")
+    .addEventListener(
+      "click",
+      function () {
+        document
+          .getElementById(
+            "featuredSection"
+          )
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+      }
+    );
+
+  document
+    .getElementById("searchInput")
+    .addEventListener(
+      "input",
+      function (event) {
+        const query =
+          event.target.value
+            .trim()
+            .toLowerCase();
+
+        const cards =
+          document.querySelectorAll(
+            ".video-card"
+          );
+
+        cards.forEach(function (card) {
+          const title =
+            card.dataset.title
               .toLowerCase();
 
-          const cards =
-            document.querySelectorAll(
-              ".video-card"
-            );
+          card.style.display =
+            title.includes(query)
+              ? ""
+              : "none";
+        });
+      }
+    );
 
-          cards.forEach(function (card) {
-            const title =
-              card.dataset.title
-                .toLowerCase();
-
-            card.style.display =
-              title.includes(query)
-                ? ""
-                : "none";
-          });
-        }
-      );
-
-    document
-      .querySelectorAll("[data-page]")
-      .forEach(function (button) {
-        button.addEventListener(
-          "click",
-          function () {
-            showToast(
-              button.dataset.page +
-              " page is coming next."
-            );
-          }
-        );
-      });
-
-    document
-      .querySelectorAll(".video-card")
-      .forEach(function (card) {
-        card.addEventListener(
-          "click",
-          function () {
-            showToast(
-              "Video unlock system is coming next."
-            );
-          }
-        );
-      });
-
-    document
-      .getElementById("seeAllButton")
-      .addEventListener(
+  document
+    .querySelectorAll("[data-page]")
+    .forEach(function (button) {
+      button.addEventListener(
         "click",
         function () {
           showToast(
-            "All videos page is coming next."
+            button.dataset.page +
+            " page is coming next."
           );
         }
       );
+    });
 
-    document
-      .getElementById("avatar")
-      .addEventListener(
+  document
+    .querySelectorAll(".video-card")
+    .forEach(function (card) {
+      card.addEventListener(
         "click",
         function () {
           showToast(
-            "Profile page is coming next."
+            "Video unlock system is coming next."
           );
         }
       );
+    });
 
-    setupTelegram();
-  </script>
+  document
+    .getElementById("seeAllButton")
+    .addEventListener(
+      "click",
+      function () {
+        showToast(
+          "All videos page is coming next."
+        );
+      }
+    );
 
+  document
+    .getElementById("avatar")
+    .addEventListener(
+      "click",
+      function () {
+        if (currentUser) {
+          showToast(
+            "Telegram ID: " +
+            currentUser.telegram_id
+          );
+        } else {
+          showToast(
+            "Profile is loading."
+          );
+        }
+      }
+    );
+
+  authenticateTelegram();
+    </script>
 </body>
 </html>
