@@ -1111,6 +1111,207 @@ if (
   window.Telegram.WebApp.expand();
 }
 
+async function loadVideos() {
+  const initData = getTelegramInitData();
+
+  if (!initData) {
+    showToast(
+      "Telegram connection unavailable."
+    );
+    return;
+  }
+
+  const videoList =
+    document.getElementById("videoList");
+
+  videoList.textContent =
+    "Loading videos...";
+
+  try {
+    const response = await fetch(
+      ADMIN_VIDEOS_URL,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+        body: JSON.stringify({
+          initData: initData,
+          action: "list",
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+      throw new Error(
+        data.error ||
+        "Video loading failed"
+      );
+    }
+
+    const videos = data.videos || [];
+
+    document.getElementById(
+      "totalVideos"
+    ).textContent = videos.length;
+
+    if (videos.length === 0) {
+      videoList.textContent =
+        "No videos available yet.";
+      return;
+    }
+
+    videoList.innerHTML = "";
+
+    videos.forEach(function (video) {
+      const item =
+        document.createElement("div");
+
+      item.style.padding = "14px";
+      item.style.marginBottom = "10px";
+      item.style.border =
+        "1px solid rgba(255,255,255,0.08)";
+      item.style.borderRadius = "14px";
+      item.style.background =
+        "rgba(23,29,43,0.8)";
+
+      const title =
+        document.createElement("strong");
+
+      title.textContent =
+        video.title || "Untitled Video";
+
+      title.style.display = "block";
+      title.style.fontSize = "13px";
+
+      const category =
+        document.createElement("span");
+
+      category.textContent =
+        video.category ||
+        "Entertainment";
+
+      category.style.display = "block";
+      category.style.marginTop = "6px";
+      category.style.color = "#9299aa";
+      category.style.fontSize = "10px";
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.type = "button";
+      deleteButton.textContent =
+        "Delete Video";
+
+      deleteButton.style.marginTop =
+        "12px";
+      deleteButton.style.padding =
+        "9px 12px";
+      deleteButton.style.border = "0";
+      deleteButton.style.borderRadius =
+        "10px";
+      deleteButton.style.background =
+        "#ff5f6d";
+      deleteButton.style.color = "white";
+      deleteButton.style.fontSize =
+        "10px";
+      deleteButton.style.fontWeight =
+        "800";
+
+      deleteButton.addEventListener(
+        "click",
+        async function () {
+          const confirmed =
+            window.confirm(
+              "Delete this video?"
+            );
+
+          if (!confirmed) {
+            return;
+          }
+
+          deleteButton.disabled = true;
+          deleteButton.textContent =
+            "Deleting...";
+
+          try {
+            const response = await fetch(
+              ADMIN_VIDEOS_URL,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type":
+                    "application/json",
+                },
+                body: JSON.stringify({
+                  initData:
+                    getTelegramInitData(),
+                  action: "delete",
+                  video_id: video.id,
+                }),
+              }
+            );
+
+            const data =
+              await response.json();
+
+            if (
+              !response.ok ||
+              !data.success
+            ) {
+              throw new Error(
+                data.error ||
+                "Delete failed"
+              );
+            }
+
+            showToast(
+              "Video deleted successfully."
+            );
+
+            await loadVideos();
+          } catch (error) {
+            console.error(error);
+
+            showToast(
+              error.message ||
+              "Video delete failed."
+            );
+
+            deleteButton.disabled = false;
+            deleteButton.textContent =
+              "Delete Video";
+          }
+        }
+      );
+
+      item.appendChild(title);
+      item.appendChild(category);
+      item.appendChild(deleteButton);
+
+      videoList.appendChild(item);
+    });
+  } catch (error) {
+    console.error(error);
+
+    videoList.textContent =
+      "Could not load videos.";
+
+    showToast(
+      error.message ||
+      "Video loading failed."
+    );
+  }
+}
+
+loadVideos();
+
 showToast("Admin Panel Ready");
 </script>
 
