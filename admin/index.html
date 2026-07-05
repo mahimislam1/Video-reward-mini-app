@@ -12,8 +12,7 @@
 
   <title>Video Reward Admin</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js?62"></script>
-
+  <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
 
   <style>
     :root {
@@ -44,7 +43,6 @@
 
     body {
       min-height: 100vh;
-
       background:
         radial-gradient(
           circle at 0% 0%,
@@ -57,13 +55,8 @@
           transparent 30%
         ),
         var(--bg);
-
       color: var(--text);
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     button,
@@ -75,6 +68,11 @@
 
     button {
       cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     .app {
@@ -89,11 +87,9 @@
         calc(20px + env(safe-area-inset-top))
         17px
         18px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       border-bottom: 1px solid var(--border);
     }
 
@@ -106,22 +102,17 @@
     .logo {
       width: 48px;
       height: 48px;
-
       display: grid;
       place-items: center;
-
       border-radius: 16px;
-
       background:
         linear-gradient(
           135deg,
           var(--primary),
           var(--cyan)
         );
-
       box-shadow:
         0 12px 32px rgba(124, 92, 255, 0.3);
-
       font-size: 20px;
     }
 
@@ -137,13 +128,10 @@
 
     .admin-badge {
       padding: 8px 11px;
-
       border: 1px solid rgba(124, 92, 255, 0.3);
       border-radius: 20px;
-
       background: rgba(124, 92, 255, 0.12);
       color: #c7b8ff;
-
       font-size: 10px;
       font-weight: 800;
     }
@@ -160,10 +148,8 @@
 
     .stat {
       padding: 18px;
-
       border: 1px solid var(--border);
       border-radius: 19px;
-
       background: rgba(16, 21, 33, 0.88);
     }
 
@@ -176,34 +162,26 @@
     .stat strong {
       display: block;
       margin-top: 8px;
-
       font-size: 25px;
     }
 
     .tabs {
       margin-top: 20px;
-
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 8px;
-
       padding: 6px;
-
       border: 1px solid var(--border);
       border-radius: 17px;
-
       background: rgba(16, 21, 33, 0.85);
     }
 
     .tab {
       padding: 11px 5px;
-
       border: 0;
       border-radius: 12px;
-
       background: transparent;
       color: var(--muted);
-
       font-size: 10px;
       font-weight: 700;
     }
@@ -215,7 +193,6 @@
           var(--primary),
           var(--primary2)
         );
-
       color: white;
     }
 
@@ -235,7 +212,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       margin-bottom: 13px;
     }
 
@@ -245,67 +221,51 @@
 
     .add-button {
       padding: 10px 14px;
-
       border: 0;
       border-radius: 12px;
-
       background:
         linear-gradient(
           135deg,
           var(--primary),
           var(--primary2)
         );
-
       color: white;
-
       font-size: 11px;
       font-weight: 800;
     }
 
     .panel {
       padding: 17px;
-
       border: 1px solid var(--border);
       border-radius: 20px;
-
       background: rgba(16, 21, 33, 0.9);
     }
 
     .empty {
       padding: 35px 15px;
-
       text-align: center;
       color: var(--muted);
-
       font-size: 13px;
     }
 
     .search {
       width: 100%;
       height: 50px;
-
       padding: 0 15px;
-
       border: 1px solid var(--border);
       border-radius: 15px;
-
       outline: 0;
-
       background: var(--surface);
       color: white;
-
       font-size: 13px;
     }
 
     .form {
       display: none;
-
       margin-bottom: 15px;
       padding: 17px;
-
       border: 1px solid var(--border);
       border-radius: 20px;
-
       background: rgba(16, 21, 33, 0.95);
     }
 
@@ -324,11 +284,8 @@
 
     .field label {
       display: block;
-
       margin-bottom: 7px;
-
       color: var(--muted);
-
       font-size: 10px;
       font-weight: 700;
     }
@@ -337,17 +294,12 @@
     .field textarea,
     .field select {
       width: 100%;
-
       padding: 13px 14px;
-
       border: 1px solid var(--border);
       border-radius: 13px;
-
       outline: 0;
-
       background: var(--surface2);
       color: white;
-
       font-size: 12px;
     }
 
@@ -358,7 +310,6 @@
 
     .form-actions {
       margin-top: 15px;
-
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
@@ -367,10 +318,8 @@
     .save-button,
     .cancel-button {
       padding: 12px;
-
       border: 0;
       border-radius: 12px;
-
       font-size: 11px;
       font-weight: 800;
     }
@@ -382,7 +331,6 @@
           var(--primary),
           var(--primary2)
         );
-
       color: white;
     }
 
@@ -393,45 +341,68 @@
 
     .notice {
       margin-top: 14px;
-
       padding: 13px 15px;
-
       border: 1px solid rgba(57, 213, 255, 0.15);
       border-radius: 14px;
-
       background: rgba(57, 213, 255, 0.07);
       color: #bdefff;
-
       font-size: 11px;
       line-height: 1.5;
+    }
+
+    .list-item {
+      padding: 14px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      background: rgba(23,29,43,0.8);
+    }
+
+    .list-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .list-title {
+      display: block;
+      font-size: 13px;
+    }
+
+    .list-meta {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .delete-button {
+      margin-top: 12px;
+      padding: 9px 12px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--red);
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
     }
 
     .toast {
       position: fixed;
       top: calc(18px + env(safe-area-inset-top));
       left: 50%;
-
       z-index: 500;
-
       width: calc(100% - 32px);
       max-width: 420px;
-
       padding: 14px 16px;
-
       border: 1px solid var(--border);
       border-radius: 15px;
-
       background: rgba(19, 24, 36, 0.98);
       color: white;
-
       box-shadow:
         0 18px 45px rgba(0, 0, 0, 0.35);
-
       font-size: 12px;
-
       transform: translate(-50%, -140%);
       opacity: 0;
-
       transition:
         transform 0.3s ease,
         opacity 0.3s ease;
@@ -541,10 +512,7 @@
 
       </nav>
 
-      <section
-        class="page active"
-        id="videos"
-      >
+      <section class="page active" id="videos">
 
         <div class="section">
 
@@ -562,16 +530,12 @@
 
           </div>
 
-          <form
-            class="form"
-            id="videoForm"
-          >
+          <form class="form" id="videoForm">
 
             <h3>Add New Video</h3>
 
             <div class="field">
               <label>VIDEO TITLE</label>
-
               <input
                 id="videoTitle"
                 type="text"
@@ -582,7 +546,6 @@
 
             <div class="field">
               <label>DESCRIPTION</label>
-
               <textarea
                 id="videoDescription"
                 placeholder="Video description"
@@ -591,7 +554,6 @@
 
             <div class="field">
               <label>THUMBNAIL URL</label>
-
               <input
                 id="videoThumbnail"
                 type="url"
@@ -601,7 +563,6 @@
 
             <div class="field">
               <label>FINAL VIDEO LINK</label>
-
               <input
                 id="videoLink"
                 type="url"
@@ -612,7 +573,6 @@
 
             <div class="field">
               <label>CATEGORY</label>
-
               <input
                 id="videoCategory"
                 type="text"
@@ -642,11 +602,9 @@
           </form>
 
           <div class="panel">
-
             <div class="empty" id="videoList">
-              No videos available yet.
+              Loading videos...
             </div>
-
           </div>
 
           <div class="notice">
@@ -659,10 +617,7 @@
 
       </section>
 
-      <section
-        class="page"
-        id="tasks"
-      >
+      <section class="page" id="tasks">
 
         <div class="section">
 
@@ -680,16 +635,12 @@
 
           </div>
 
-          <form
-            class="form"
-            id="taskForm"
-          >
+          <form class="form" id="taskForm">
 
             <h3>Add New Task</h3>
 
             <div class="field">
               <label>TASK TITLE</label>
-
               <input
                 id="taskTitle"
                 type="text"
@@ -700,16 +651,14 @@
 
             <div class="field">
               <label>DESCRIPTION</label>
-
               <textarea
                 id="taskDescription"
-                placeholder="Task instructions"
+                placeholder="Task description"
               ></textarea>
             </div>
 
             <div class="field">
               <label>TASK LINK</label>
-
               <input
                 id="taskLink"
                 type="url"
@@ -720,37 +669,51 @@
 
             <div class="field">
               <label>REWARD COINS</label>
-
               <input
                 id="taskReward"
                 type="number"
                 min="0"
+                step="1"
                 placeholder="100"
                 required
               >
             </div>
 
             <div class="field">
-              <label>TASK TYPE</label>
+              <label>WHAT SHOULD USER DO?</label>
 
               <select id="taskType">
-
                 <option value="visit">
                   Visit Link
                 </option>
 
                 <option value="telegram">
-                  Telegram
+                  Join Telegram
+                </option>
+
+                <option value="like">
+                  Like
+                </option>
+
+                <option value="follow">
+                  Follow
+                </option>
+
+                <option value="subscribe">
+                  Subscribe
+                </option>
+
+                <option value="comment">
+                  Comment
                 </option>
 
                 <option value="social">
-                  Social
+                  Social Task
                 </option>
 
                 <option value="custom">
                   Custom
                 </option>
-
               </select>
 
             </div>
@@ -777,21 +740,21 @@
           </form>
 
           <div class="panel">
-
             <div class="empty" id="taskList">
-              No tasks available yet.
+              Loading tasks...
             </div>
+          </div>
 
+          <div class="notice">
+            এখানে Other Tasks manage হবে।
+            Admin Panel থেকে task add এবং delete করা যাবে।
           </div>
 
         </div>
 
       </section>
 
-      <section
-        class="page"
-        id="users"
-      >
+      <section class="page" id="users">
 
         <div class="section">
 
@@ -810,21 +773,16 @@
             class="panel"
             style="margin-top: 13px;"
           >
-
             <div class="empty">
               User database connection coming next.
             </div>
-
           </div>
 
         </div>
 
       </section>
 
-      <section
-        class="page"
-        id="withdrawals"
-      >
+      <section class="page" id="withdrawals">
 
         <div class="section">
 
@@ -833,11 +791,9 @@
           </div>
 
           <div class="panel">
-
             <div class="empty">
               No pending withdrawal requests.
             </div>
-
           </div>
 
         </div>
@@ -847,181 +803,71 @@
     </div>
 
   </main>
+
   <script>
-"use strict";
+    "use strict";
 
-const ADMIN_VIDEOS_URL =
-  "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/admin-videos";
+    const ADMIN_VIDEOS_URL =
+      "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/admin-videos";
 
-const toast = document.getElementById("toast");
+    const ADMIN_TASKS_URL =
+      "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/admin-tasks";
 
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
+    const toast =
+      document.getElementById("toast");
 
-  window.setTimeout(function () {
-    toast.classList.remove("show");
-  }, 2200);
-}
+    const videoForm =
+      document.getElementById("videoForm");
 
-function getTelegramInitData() {
-  if (
-    window.Telegram &&
-    window.Telegram.WebApp
-  ) {
-    return window.Telegram.WebApp.initData || "";
-  }
+    const taskForm =
+      document.getElementById("taskForm");
 
-  return "";
-}
+    const videoList =
+      document.getElementById("videoList");
 
-document
-  .querySelectorAll(".tab")
-  .forEach(function (button) {
-    button.addEventListener(
-      "click",
-      function () {
-        document
-          .querySelectorAll(".tab")
-          .forEach(function (tab) {
-            tab.classList.remove("active");
-          });
+    const taskList =
+      document.getElementById("taskList");
 
-        document
-          .querySelectorAll(".page")
-          .forEach(function (page) {
-            page.classList.remove("active");
-          });
+    let videoSaving = false;
+    let taskSaving = false;
 
-        button.classList.add("active");
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
 
-        const page =
-          document.getElementById(
-            button.dataset.tab
-          );
+      window.setTimeout(function () {
+        toast.classList.remove("show");
+      }, 2200);
+    }
 
-        if (page) {
-          page.classList.add("active");
-        }
+    function getTelegramInitData() {
+      if (
+        window.Telegram &&
+        window.Telegram.WebApp
+      ) {
+        return (
+          window.Telegram.WebApp.initData || ""
+        );
       }
-    );
-  });
 
-const videoForm =
-  document.getElementById("videoForm");
-
-const taskForm =
-  document.getElementById("taskForm");
-
-document
-  .getElementById("addVideoButton")
-  .addEventListener(
-    "click",
-    function () {
-      videoForm.classList.add("show");
-    }
-  );
-
-document
-  .getElementById("cancelVideo")
-  .addEventListener(
-    "click",
-    function () {
-      videoForm.classList.remove("show");
-      videoForm.reset();
-    }
-  );
-
-document
-  .getElementById("addTaskButton")
-  .addEventListener(
-    "click",
-    function () {
-      taskForm.classList.add("show");
-    }
-  );
-
-document
-  .getElementById("cancelTask")
-  .addEventListener(
-    "click",
-    function () {
-      taskForm.classList.remove("show");
-      taskForm.reset();
-    }
-  );
-
-let videoSaving = false;
-
-videoForm.addEventListener(
-  "submit",
-  async function (event) {
-    event.preventDefault();
-
-    if (videoSaving) {
-      return;
+      return "";
     }
 
-    const initData =
-      getTelegramInitData();
+    async function postAdminRequest(
+      url,
+      payload
+    ) {
+      const initData =
+        getTelegramInitData();
 
-    if (!initData) {
-      showToast(
-        "Please open Admin Panel from Telegram."
-      );
-      return;
-    }
+      if (!initData) {
+        throw new Error(
+          "Please open Admin Panel from Telegram."
+        );
+      }
 
-    const fields =
-      videoForm.querySelectorAll(
-        "input, textarea"
-      );
-
-    const title =
-      fields[0]?.value.trim() || "";
-
-    const description =
-      fields[1]?.value.trim() || "";
-
-    const thumbnailUrl =
-      fields[2]?.value.trim() || "";
-
-    const finalVideoUrl =
-      fields[3]?.value.trim() || "";
-
-    const category =
-      fields[4]?.value.trim() || "";
-
-    if (!title) {
-      showToast(
-        "Video title is required."
-      );
-      return;
-    }
-
-    if (!finalVideoUrl) {
-      showToast(
-        "Final video link is required."
-      );
-      return;
-    }
-
-    const submitButton =
-      videoForm.querySelector(
-        'button[type="submit"]'
-      );
-
-    videoSaving = true;
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent =
-        "Saving...";
-    }
-
-    try {
       const response = await fetch(
-        ADMIN_VIDEOS_URL,
+        url,
         {
           method: "POST",
           headers: {
@@ -1030,22 +876,20 @@ videoForm.addEventListener(
           },
           body: JSON.stringify({
             initData: initData,
-            action: "create",
-            video: {
-              title: title,
-              description: description,
-              thumbnail_url:
-                thumbnailUrl,
-              final_video_url:
-                finalVideoUrl,
-              category: category,
-            },
+            ...payload,
           }),
         }
       );
 
-      const data =
-        await response.json();
+      let data;
+
+      try {
+        data = await response.json();
+      } catch (error) {
+        throw new Error(
+          "Invalid server response"
+        );
+      }
 
       if (
         !response.ok ||
@@ -1053,268 +897,657 @@ videoForm.addEventListener(
       ) {
         throw new Error(
           data.error ||
-          "Video save failed"
+          "Server request failed"
         );
       }
 
-      showToast(
-        "Video saved successfully."
-      );
-
-      videoForm.reset();
-
-      videoForm.classList.remove(
-        "show"
-      );
-
-      window.setTimeout(
-        function () {
-          window.location.reload();
-        },
-        1000
-      );
-    } catch (error) {
-      console.error(error);
-
-      showToast(
-        error.message ||
-        "Video save failed."
-      );
-    } finally {
-      videoSaving = false;
-
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent =
-          "Save Video";
-      }
-    }
-  }
-);
-
-taskForm.addEventListener(
-  "submit",
-  function (event) {
-    event.preventDefault();
-
-    showToast(
-      "Task database connection is next."
-    );
-  }
-);
-
-if (
-  window.Telegram &&
-  window.Telegram.WebApp
-) {
-  window.Telegram.WebApp.ready();
-  window.Telegram.WebApp.expand();
-}
-
-async function loadVideos() {
-  const initData = getTelegramInitData();
-
-  if (!initData) {
-    showToast(
-      "Telegram connection unavailable."
-    );
-    return;
-  }
-
-  const videoList =
-    document.getElementById("videoList");
-
-  videoList.textContent =
-    "Loading videos...";
-
-  try {
-    const response = await fetch(
-      ADMIN_VIDEOS_URL,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-        body: JSON.stringify({
-          initData: initData,
-          action: "list",
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (
-      !response.ok ||
-      !data.success
-    ) {
-      throw new Error(
-        data.error ||
-        "Video loading failed"
-      );
+      return data;
     }
 
-    const videos = data.videos || [];
+    document
+      .querySelectorAll(".tab")
+      .forEach(function (button) {
+        button.addEventListener(
+          "click",
+          function () {
+            document
+              .querySelectorAll(".tab")
+              .forEach(function (tab) {
+                tab.classList.remove(
+                  "active"
+                );
+              });
 
-    document.getElementById(
-      "totalVideos"
-    ).textContent = videos.length;
+            document
+              .querySelectorAll(".page")
+              .forEach(function (page) {
+                page.classList.remove(
+                  "active"
+                );
+              });
 
-    if (videos.length === 0) {
-      videoList.textContent =
-        "No videos available yet.";
-      return;
-    }
-
-    videoList.innerHTML = "";
-
-    videos.forEach(function (video) {
-      const item =
-        document.createElement("div");
-
-      item.style.padding = "14px";
-      item.style.marginBottom = "10px";
-      item.style.border =
-        "1px solid rgba(255,255,255,0.08)";
-      item.style.borderRadius = "14px";
-      item.style.background =
-        "rgba(23,29,43,0.8)";
-
-      const title =
-        document.createElement("strong");
-
-      title.textContent =
-        video.title || "Untitled Video";
-
-      title.style.display = "block";
-      title.style.fontSize = "13px";
-
-      const category =
-        document.createElement("span");
-
-      category.textContent =
-        video.category ||
-        "Entertainment";
-
-      category.style.display = "block";
-      category.style.marginTop = "6px";
-      category.style.color = "#9299aa";
-      category.style.fontSize = "10px";
-
-      const deleteButton =
-        document.createElement("button");
-
-      deleteButton.type = "button";
-      deleteButton.textContent =
-        "Delete Video";
-
-      deleteButton.style.marginTop =
-        "12px";
-      deleteButton.style.padding =
-        "9px 12px";
-      deleteButton.style.border = "0";
-      deleteButton.style.borderRadius =
-        "10px";
-      deleteButton.style.background =
-        "#ff5f6d";
-      deleteButton.style.color = "white";
-      deleteButton.style.fontSize =
-        "10px";
-      deleteButton.style.fontWeight =
-        "800";
-
-      deleteButton.addEventListener(
-        "click",
-        async function () {
-          const confirmed =
-            window.confirm(
-              "Delete this video?"
+            button.classList.add(
+              "active"
             );
 
-          if (!confirmed) {
-            return;
-          }
+            const page =
+              document.getElementById(
+                button.dataset.tab
+              );
 
-          deleteButton.disabled = true;
-          deleteButton.textContent =
-            "Deleting...";
-
-          try {
-            const response = await fetch(
-              ADMIN_VIDEOS_URL,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type":
-                    "application/json",
-                },
-                body: JSON.stringify({
-                  initData:
-                    getTelegramInitData(),
-                  action: "delete",
-                  video_id: video.id,
-                }),
-              }
-            );
-
-            const data =
-              await response.json();
-
-            if (
-              !response.ok ||
-              !data.success
-            ) {
-              throw new Error(
-                data.error ||
-                "Delete failed"
+            if (page) {
+              page.classList.add(
+                "active"
               );
             }
-
-            showToast(
-              "Video deleted successfully."
-            );
-
-            await loadVideos();
-          } catch (error) {
-            console.error(error);
-
-            showToast(
-              error.message ||
-              "Video delete failed."
-            );
-
-            deleteButton.disabled = false;
-            deleteButton.textContent =
-              "Delete Video";
           }
+        );
+      });
+
+    document
+      .getElementById("addVideoButton")
+      .addEventListener(
+        "click",
+        function () {
+          videoForm.classList.add(
+            "show"
+          );
         }
       );
 
-      item.appendChild(title);
-      item.appendChild(category);
-      item.appendChild(deleteButton);
+    document
+      .getElementById("cancelVideo")
+      .addEventListener(
+        "click",
+        function () {
+          videoForm.classList.remove(
+            "show"
+          );
 
-      videoList.appendChild(item);
-    });
-  } catch (error) {
-    console.error(error);
+          videoForm.reset();
+        }
+      );
 
-    videoList.textContent =
-      "Could not load videos.";
+    document
+      .getElementById("addTaskButton")
+      .addEventListener(
+        "click",
+        function () {
+          taskForm.classList.add(
+            "show"
+          );
+        }
+      );
 
-    showToast(
-      error.message ||
-      "Video loading failed."
+    document
+      .getElementById("cancelTask")
+      .addEventListener(
+        "click",
+        function () {
+          taskForm.classList.remove(
+            "show"
+          );
+
+          taskForm.reset();
+        }
+      );
+
+    videoForm.addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
+
+        if (videoSaving) {
+          return;
+        }
+
+        const title =
+          document
+            .getElementById("videoTitle")
+            .value
+            .trim();
+
+        const description =
+          document
+            .getElementById(
+              "videoDescription"
+            )
+            .value
+            .trim();
+
+        const thumbnailUrl =
+          document
+            .getElementById(
+              "videoThumbnail"
+            )
+            .value
+            .trim();
+
+        const finalVideoUrl =
+          document
+            .getElementById("videoLink")
+            .value
+            .trim();
+
+        const category =
+          document
+            .getElementById(
+              "videoCategory"
+            )
+            .value
+            .trim();
+
+        if (!title) {
+          showToast(
+            "Video title is required."
+          );
+          return;
+        }
+
+        if (!finalVideoUrl) {
+          showToast(
+            "Final video link is required."
+          );
+          return;
+        }
+
+        const submitButton =
+          videoForm.querySelector(
+            'button[type="submit"]'
+          );
+
+        videoSaving = true;
+
+        submitButton.disabled = true;
+        submitButton.textContent =
+          "Saving...";
+
+        try {
+          await postAdminRequest(
+            ADMIN_VIDEOS_URL,
+            {
+              action: "create",
+              video: {
+                title: title,
+                description: description,
+                thumbnail_url:
+                  thumbnailUrl,
+                final_video_url:
+                  finalVideoUrl,
+                category: category,
+              },
+            }
+          );
+
+          showToast(
+            "Video saved successfully."
+          );
+
+          videoForm.reset();
+
+          videoForm.classList.remove(
+            "show"
+          );
+
+          await loadVideos();
+        } catch (error) {
+          console.error(error);
+
+          showToast(
+            error.message ||
+            "Video save failed."
+          );
+        } finally {
+          videoSaving = false;
+
+          submitButton.disabled = false;
+          submitButton.textContent =
+            "Save Video";
+        }
+      }
     );
-  }
-}
 
-loadVideos();
+    taskForm.addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
 
-showToast("Admin Panel Ready");
-</script>
+        if (taskSaving) {
+          return;
+        }
 
-  
-  </body>
+        const title =
+          document
+            .getElementById("taskTitle")
+            .value
+            .trim();
+
+        const description =
+          document
+            .getElementById(
+              "taskDescription"
+            )
+            .value
+            .trim();
+
+        const taskUrl =
+          document
+            .getElementById("taskLink")
+            .value
+            .trim();
+
+        const rewardCoins =
+          Number(
+            document.getElementById(
+              "taskReward"
+            ).value
+          );
+
+        const taskType =
+          document.getElementById(
+            "taskType"
+          ).value;
+
+        if (!title) {
+          showToast(
+            "Task title is required."
+          );
+          return;
+        }
+
+        if (!taskUrl) {
+          showToast(
+            "Task link is required."
+          );
+          return;
+        }
+
+        if (
+          !Number.isFinite(rewardCoins) ||
+          rewardCoins < 0
+        ) {
+          showToast(
+            "Reward coins is invalid."
+          );
+          return;
+        }
+
+        const submitButton =
+          taskForm.querySelector(
+            'button[type="submit"]'
+          );
+
+        taskSaving = true;
+
+        submitButton.disabled = true;
+        submitButton.textContent =
+          "Saving...";
+
+        try {
+          await postAdminRequest(
+            ADMIN_TASKS_URL,
+            {
+              action: "create",
+              task: {
+                title: title,
+                description: description,
+                task_url: taskUrl,
+                reward_coins:
+                  Math.floor(rewardCoins),
+                task_type: taskType,
+                verification_method:
+                  "manual",
+              },
+            }
+          );
+
+          showToast(
+            "Task saved successfully."
+          );
+
+          taskForm.reset();
+
+          taskForm.classList.remove(
+            "show"
+          );
+
+          await loadTasks();
+        } catch (error) {
+          console.error(error);
+
+          showToast(
+            error.message ||
+            "Task save failed."
+          );
+        } finally {
+          taskSaving = false;
+
+          submitButton.disabled = false;
+          submitButton.textContent =
+            "Save Task";
+        }
+      }
+    );
+
+    async function loadVideos() {
+      videoList.textContent =
+        "Loading videos...";
+
+      try {
+        const data =
+          await postAdminRequest(
+            ADMIN_VIDEOS_URL,
+            {
+              action: "list",
+            }
+          );
+
+        const videos =
+          data.videos || [];
+
+        document.getElementById(
+          "totalVideos"
+        ).textContent = videos.length;
+
+        if (videos.length === 0) {
+          videoList.textContent =
+            "No videos available yet.";
+
+          return;
+        }
+
+        videoList.innerHTML = "";
+
+        videos.forEach(function (video) {
+          const item =
+            document.createElement("div");
+
+          item.className = "list-item";
+
+          const title =
+            document.createElement(
+              "strong"
+            );
+
+          title.className = "list-title";
+
+          title.textContent =
+            video.title ||
+            "Untitled Video";
+
+          const category =
+            document.createElement(
+              "span"
+            );
+
+          category.className =
+            "list-meta";
+
+          category.textContent =
+            video.category ||
+            "Entertainment";
+
+          const deleteButton =
+            document.createElement(
+              "button"
+            );
+
+          deleteButton.type = "button";
+
+          deleteButton.className =
+            "delete-button";
+
+          deleteButton.textContent =
+            "Delete Video";
+
+          deleteButton.addEventListener(
+            "click",
+            async function () {
+              const confirmed =
+                window.confirm(
+                  "Delete this video?"
+                );
+
+              if (!confirmed) {
+                return;
+              }
+
+              deleteButton.disabled =
+                true;
+
+              deleteButton.textContent =
+                "Deleting...";
+
+              try {
+                await postAdminRequest(
+                  ADMIN_VIDEOS_URL,
+                  {
+                    action: "delete",
+                    video_id: video.id,
+                  }
+                );
+
+                showToast(
+                  "Video deleted successfully."
+                );
+
+                await loadVideos();
+              } catch (error) {
+                console.error(error);
+
+                showToast(
+                  error.message ||
+                  "Video delete failed."
+                );
+
+                deleteButton.disabled =
+                  false;
+
+                deleteButton.textContent =
+                  "Delete Video";
+              }
+            }
+          );
+
+          item.appendChild(title);
+          item.appendChild(category);
+          item.appendChild(
+            deleteButton
+          );
+
+          videoList.appendChild(item);
+        });
+      } catch (error) {
+        console.error(error);
+
+        videoList.textContent =
+          "Could not load videos.";
+
+        showToast(
+          error.message ||
+          "Video loading failed."
+        );
+      }
+    }
+
+    async function loadTasks() {
+      taskList.textContent =
+        "Loading tasks...";
+
+      try {
+        const data =
+          await postAdminRequest(
+            ADMIN_TASKS_URL,
+            {
+              action: "list",
+            }
+          );
+
+        const tasks =
+          data.tasks || [];
+
+        document.getElementById(
+          "totalTasks"
+        ).textContent = tasks.length;
+
+        if (tasks.length === 0) {
+          taskList.textContent =
+            "No tasks available yet.";
+
+          return;
+        }
+
+        taskList.innerHTML = "";
+
+        tasks.forEach(function (task) {
+          const item =
+            document.createElement("div");
+
+          item.className = "list-item";
+
+          const title =
+            document.createElement(
+              "strong"
+            );
+
+          title.className = "list-title";
+
+          title.textContent =
+            task.title ||
+            "Untitled Task";
+
+          const meta =
+            document.createElement(
+              "span"
+            );
+
+          meta.className = "list-meta";
+
+          meta.textContent =
+            "Type: " +
+            (task.task_type || "manual") +
+            " • Reward: " +
+            Number(
+              task.reward_coins || 0
+            ) +
+            " coins";
+
+          const deleteButton =
+            document.createElement(
+              "button"
+            );
+
+          deleteButton.type = "button";
+
+          deleteButton.className =
+            "delete-button";
+
+          deleteButton.textContent =
+            "Delete Task";
+
+          deleteButton.addEventListener(
+            "click",
+            async function () {
+              const confirmed =
+                window.confirm(
+                  "Delete this task?"
+                );
+
+              if (!confirmed) {
+                return;
+              }
+
+              deleteButton.disabled =
+                true;
+
+              deleteButton.textContent =
+                "Deleting...";
+
+              try {
+                await postAdminRequest(
+                  ADMIN_TASKS_URL,
+                  {
+                    action: "delete",
+                    task_id: task.id,
+                  }
+                );
+
+                showToast(
+                  "Task deleted successfully."
+                );
+
+                await loadTasks();
+              } catch (error) {
+                console.error(error);
+
+                showToast(
+                  error.message ||
+                  "Task delete failed."
+                );
+
+                deleteButton.disabled =
+                  false;
+
+                deleteButton.textContent =
+                  "Delete Task";
+              }
+            }
+          );
+
+          item.appendChild(title);
+          item.appendChild(meta);
+          item.appendChild(
+            deleteButton
+          );
+
+          taskList.appendChild(item);
+        });
+      } catch (error) {
+        console.error(error);
+
+        taskList.textContent =
+          "Could not load tasks.";
+
+        showToast(
+          error.message ||
+          "Task loading failed."
+        );
+      }
+    }
+
+    async function startAdminPanel() {
+      if (
+        window.Telegram &&
+        window.Telegram.WebApp
+      ) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+      }
+
+      if (!getTelegramInitData()) {
+        showToast(
+          "Please open Admin Panel from Telegram."
+        );
+
+        videoList.textContent =
+          "Telegram connection unavailable.";
+
+        taskList.textContent =
+          "Telegram connection unavailable.";
+
+        return;
+      }
+
+      await Promise.all([
+        loadVideos(),
+        loadTasks(),
+      ]);
+
+      showToast("Admin Panel Ready");
+    }
+
+    startAdminPanel();
+  </script>
+
+</body>
 </html>
