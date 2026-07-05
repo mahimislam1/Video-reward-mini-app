@@ -22,6 +22,9 @@
       --primary: #7c5cff;
       --primary-2: #a56cff;
       --cyan: #39d5ff;
+      --green: #32d583;
+      --red: #ff5f6d;
+      --yellow: #fdb022;
       --text: #ffffff;
       --muted: #9299aa;
       --border: rgba(255, 255, 255, 0.08);
@@ -61,16 +64,22 @@
         Helvetica,
         sans-serif;
 
-      padding-bottom: 95px;
+      padding-bottom: 100px;
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
 
     button {
       cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .app {
@@ -158,6 +167,14 @@
       padding: 0 16px;
     }
 
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
     .search-box {
       height: 53px;
 
@@ -171,9 +188,6 @@
       border-radius: 17px;
 
       background: rgba(16, 21, 33, 0.85);
-
-      box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.15);
     }
 
     .search-icon {
@@ -240,8 +254,6 @@
       border-radius: 50%;
 
       background: rgba(255, 255, 255, 0.12);
-
-      filter: blur(1px);
     }
 
     .hero-play {
@@ -286,7 +298,6 @@
 
     .hero h2 {
       margin-top: 11px;
-
       font-size: 25px;
       line-height: 1.12;
     }
@@ -382,17 +393,25 @@
 
     .section-header button {
       border: 0;
-
       background: transparent;
       color: var(--primary-2);
-
       font-size: 11px;
+    }
+
+    .page-title {
+      margin-bottom: 6px;
+      font-size: 24px;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .video-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-
       gap: 12px;
     }
 
@@ -492,6 +511,335 @@
       font-size: 9px;
     }
 
+    .empty-state {
+      padding: 35px 18px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background: rgba(16, 21, 33, 0.9);
+
+      text-align: center;
+      color: var(--muted);
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .task-card {
+      padding: 17px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background: rgba(16, 21, 33, 0.9);
+    }
+
+    .task-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .task-icon {
+      width: 46px;
+      height: 46px;
+
+      flex: 0 0 46px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.28),
+          rgba(57, 213, 255, 0.18)
+        );
+
+      color: #cfc4ff;
+
+      font-size: 19px;
+    }
+
+    .task-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .task-info h4 {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .task-info p {
+      margin-top: 6px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .task-meta {
+      margin-top: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .reward-badge {
+      padding: 7px 10px;
+
+      border: 1px solid rgba(50, 213, 131, 0.18);
+      border-radius: 20px;
+
+      background: rgba(50, 213, 131, 0.09);
+      color: #74e7ac;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .task-button {
+      padding: 10px 14px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-2)
+        );
+
+      color: white;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .wallet-card {
+      margin-top: 20px;
+      padding: 24px;
+
+      overflow: hidden;
+      position: relative;
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6d4cf5,
+          #953fe4
+        );
+
+      box-shadow:
+        0 20px 50px rgba(124, 92, 255, 0.25);
+    }
+
+    .wallet-card span {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 11px;
+    }
+
+    .wallet-card strong {
+      display: block;
+
+      margin-top: 9px;
+
+      font-size: 34px;
+    }
+
+    .wallet-card p {
+      margin-top: 6px;
+
+      color: rgba(255, 255, 255, 0.7);
+
+      font-size: 10px;
+    }
+
+    .panel {
+      margin-top: 15px;
+      padding: 18px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background: rgba(16, 21, 33, 0.9);
+    }
+
+    .panel h3 {
+      font-size: 15px;
+    }
+
+    .panel p {
+      margin-top: 8px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .field {
+      margin-top: 14px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+
+      padding: 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      outline: 0;
+
+      background: var(--surface-2);
+      color: white;
+
+      font-size: 12px;
+    }
+
+    .wide-button {
+      width: 100%;
+
+      margin-top: 15px;
+      padding: 13px;
+
+      border: 0;
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-2)
+        );
+
+      color: white;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .profile-card {
+      margin-top: 20px;
+      padding: 22px;
+
+      border: 1px solid var(--border);
+      border-radius: 22px;
+
+      background: rgba(16, 21, 33, 0.9);
+
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 76px;
+      height: 76px;
+
+      margin: 0 auto;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      border: 2px solid rgba(124, 92, 255, 0.45);
+      border-radius: 50%;
+
+      background: var(--surface-2);
+
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-card h3 {
+      margin-top: 13px;
+      font-size: 18px;
+    }
+
+    .profile-card p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .info-list {
+      margin-top: 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      overflow: hidden;
+
+      background: rgba(16, 21, 33, 0.9);
+    }
+
+    .info-row {
+      padding: 15px 17px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: 0;
+    }
+
+    .info-row span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .info-row strong {
+      max-width: 65%;
+
+      text-align: right;
+
+      font-size: 11px;
+
+      overflow-wrap: anywhere;
+    }
+
     .bottom-nav {
       width: 100%;
       max-width: 760px;
@@ -567,9 +915,7 @@
 
       font-size: 12px;
 
-      transform:
-        translate(-50%, -130%);
-
+      transform: translate(-50%, -130%);
       opacity: 0;
 
       transition:
@@ -578,9 +924,7 @@
     }
 
     .toast.show {
-      transform:
-        translate(-50%, 0);
-
+      transform: translate(-50%, 0);
       opacity: 1;
     }
 
@@ -610,11 +954,13 @@
         </div>
 
         <div class="brand-copy">
+
           <h1>Video Reward</h1>
 
           <p id="welcomeText">
             Discover. Watch. Earn.
           </p>
+
         </div>
 
       </div>
@@ -631,154 +977,376 @@
 
     <div class="content">
 
-      <label class="search-box">
+      <section
+        class="page active"
+        id="homePage"
+      >
 
-        <span class="search-icon">
-          ⌕
-        </span>
+        <label class="search-box">
 
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search videos..."
-          autocomplete="off"
-        >
-
-      </label>
-
-      <section class="hero">
-
-        <div class="hero-orb"></div>
-
-        <div class="hero-play">
-          ▶
-        </div>
-
-        <div class="hero-content">
-
-          <span class="badge">
-            FEATURED
+          <span class="search-icon">
+            ⌕
           </span>
 
-          <h2>
-            Discover premium videos
-          </h2>
-
-          <p>
-            Explore fresh content and unlock videos
-            through supported actions.
-          </p>
-
-          <button
-            class="primary-button"
-            id="exploreButton"
-            type="button"
+          <input
+            id="homeSearchInput"
+            type="search"
+            placeholder="Search videos..."
+            autocomplete="off"
           >
-            Explore Now
-          </button>
 
-        </div>
+        </label>
 
-      </section>
+        <section class="hero">
 
-      <section class="stats">
+          <div class="hero-orb"></div>
 
-        <article class="stat-card">
-          <strong id="coinBalance">0</strong>
-          <span>MY COINS</span>
-        </article>
+          <div class="hero-play">
+            ▶
+          </div>
 
-        <article class="stat-card">
-          <strong id="taskCount">0</strong>
-          <span>TASKS</span>
-        </article>
+          <div class="hero-content">
 
-        <article class="stat-card">
-          <strong id="videoCount">2</strong>
-          <span>VIDEOS</span>
-        </article>
+            <span class="badge">
+              FEATURED
+            </span>
+
+            <h2>
+              Discover premium videos
+            </h2>
+
+            <p>
+              Explore fresh content and unlock videos
+              through supported actions.
+            </p>
+
+            <button
+              class="primary-button"
+              id="exploreButton"
+              type="button"
+            >
+              Explore Now
+            </button>
+
+          </div>
+
+        </section>
+
+        <section class="stats">
+
+          <article class="stat-card">
+            <strong id="coinBalance">0</strong>
+            <span>MY COINS</span>
+          </article>
+
+          <article class="stat-card">
+            <strong id="taskCount">0</strong>
+            <span>TASKS</span>
+          </article>
+
+          <article class="stat-card">
+            <strong id="videoCount">0</strong>
+            <span>VIDEOS</span>
+          </article>
+
+        </section>
+
+        <section
+          class="section"
+          id="featuredSection"
+        >
+
+          <div class="section-header">
+
+            <h3>
+              Featured Videos
+            </h3>
+
+            <button
+              type="button"
+              id="seeAllButton"
+            >
+              See all
+            </button>
+
+          </div>
+
+          <div
+            class="video-grid"
+            id="homeVideoGrid"
+          ></div>
+
+        </section>
 
       </section>
 
       <section
-        class="section"
-        id="featuredSection"
+        class="page"
+        id="searchPage"
       >
 
-        <div class="section-header">
+        <h2 class="page-title">
+          Search
+        </h2>
+
+        <p class="page-subtitle">
+          Find videos from the available collection.
+        </p>
+
+        <div style="margin-top: 18px;">
+
+          <label class="search-box">
+
+            <span class="search-icon">
+              ⌕
+            </span>
+
+            <input
+              id="searchPageInput"
+              type="search"
+              placeholder="Search videos..."
+              autocomplete="off"
+            >
+
+          </label>
+
+        </div>
+
+        <section class="section">
+
+          <div
+            class="video-grid"
+            id="searchVideoGrid"
+          ></div>
+
+        </section>
+
+      </section>
+
+      <section
+        class="page"
+        id="earnPage"
+      >
+
+        <h2 class="page-title">
+          Earn
+        </h2>
+
+        <p class="page-subtitle">
+          Complete eligible tasks and follow the
+          task instructions.
+        </p>
+
+        <section class="section">
+
+          <div class="section-header">
+
+            <h3>
+              Available Tasks
+            </h3>
+
+            <button
+              type="button"
+              id="taskAvailableText"
+            >
+              0 available
+            </button>
+
+          </div>
+
+          <div
+            class="task-list"
+            id="taskList"
+          ></div>
+
+        </section>
+
+      </section>
+
+      <section
+        class="page"
+        id="walletPage"
+      >
+
+        <h2 class="page-title">
+          Wallet
+        </h2>
+
+        <p class="page-subtitle">
+          View your balance and withdrawal options.
+        </p>
+
+        <div class="wallet-card">
+
+          <span>
+            AVAILABLE BALANCE
+          </span>
+
+          <strong id="walletBalance">
+            0
+          </strong>
+
+          <p>
+            Coins
+          </p>
+
+        </div>
+
+        <div class="panel">
 
           <h3>
-            Featured Videos
+            Withdraw Balance
           </h3>
 
+          <p>
+            Withdrawal request connection will be
+            enabled after the secure withdrawal
+            backend is connected.
+          </p>
+
+          <div class="field">
+
+            <label>
+              PAYMENT METHOD
+            </label>
+
+            <select id="withdrawMethod">
+
+              <option value="bkash">
+                bKash
+              </option>
+
+              <option value="nagad">
+                Nagad
+              </option>
+
+            </select>
+
+          </div>
+
+          <div class="field">
+
+            <label>
+              ACCOUNT NUMBER
+            </label>
+
+            <input
+              id="withdrawAccount"
+              type="tel"
+              placeholder="01XXXXXXXXX"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>
+              COIN AMOUNT
+            </label>
+
+            <input
+              id="withdrawAmount"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Enter coin amount"
+            >
+
+          </div>
+
           <button
+            class="wide-button"
+            id="withdrawButton"
             type="button"
-            id="seeAllButton"
           >
-            See all
+            Request Withdrawal
           </button>
 
         </div>
 
-        <div class="video-grid">
+      </section>
 
-          <article
-            class="video-card"
-            data-title="Premium Video Demo"
+      <section
+        class="page"
+        id="profilePage"
+      >
+
+        <h2 class="page-title">
+          Profile
+        </h2>
+
+        <p class="page-subtitle">
+          Your connected Telegram account.
+        </p>
+
+        <div class="profile-card">
+
+          <div
+            class="profile-avatar"
+            id="profileAvatar"
           >
+            U
+          </div>
 
-            <div class="thumbnail">
+          <h3 id="profileName">
+            User
+          </h3>
 
-              <span class="new-badge">
-                NEW
-              </span>
+          <p id="profileUsername">
+            Telegram Account
+          </p>
 
-              <div class="play-button">
-                ▶
-              </div>
+        </div>
 
-            </div>
+        <div class="info-list">
 
-            <div class="card-body">
+          <div class="info-row">
 
-              <h4>
-                Premium Video Demo
-              </h4>
+            <span>
+              TELEGRAM ID
+            </span>
 
-              <p>
-                Entertainment · Demo
-              </p>
+            <strong id="profileTelegramId">
+              —
+            </strong>
 
-            </div>
+          </div>
 
-          </article>
+          <div class="info-row">
 
-          <article
-            class="video-card"
-            data-title="Trending Video Demo"
-          >
+            <span>
+              USERNAME
+            </span>
 
-            <div class="thumbnail two">
+            <strong id="profileUsernameValue">
+              —
+            </strong>
 
-              <div class="play-button">
-                ▶
-              </div>
+          </div>
 
-            </div>
+          <div class="info-row">
 
-            <div class="card-body">
+            <span>
+              COIN BALANCE
+            </span>
 
-              <h4>
-                Trending Video Demo
-              </h4>
+            <strong id="profileCoinBalance">
+              0
+            </strong>
 
-              <p>
-                Trending · Demo
-              </p>
+          </div>
 
-            </div>
+          <div class="info-row">
 
-          </article>
+            <span>
+              ACCOUNT STATUS
+            </span>
+
+            <strong>
+              Connected
+            </strong>
+
+          </div>
 
         </div>
 
@@ -793,191 +1361,284 @@
     <button
       class="nav-button active"
       type="button"
+      data-page="homePage"
     >
+
       <span class="nav-icon">⌂</span>
+
       <span>Home</span>
+
     </button>
 
     <button
       class="nav-button"
       type="button"
-      data-page="Search"
+      data-page="searchPage"
     >
+
       <span class="nav-icon">⌕</span>
+
       <span>Search</span>
+
     </button>
 
     <button
       class="nav-button"
       type="button"
-      data-page="Earn"
+      data-page="earnPage"
     >
+
       <span class="nav-icon">◆</span>
+
       <span>Earn</span>
+
     </button>
 
     <button
       class="nav-button"
       type="button"
-      data-page="Wallet"
+      data-page="walletPage"
     >
+
       <span class="nav-icon">◈</span>
+
       <span>Wallet</span>
+
     </button>
 
     <button
       class="nav-button"
       type="button"
-      data-page="Profile"
+      data-page="profilePage"
     >
+
       <span class="nav-icon">●</span>
+
       <span>Profile</span>
+
     </button>
 
   </nav>
-<script>
-  "use strict";
 
-  const TELEGRAM_AUTH_URL =
-    "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/telegram-auth";
+  <script>
+    "use strict";
 
-  const GET_HOME_DATA_URL =
-    "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/get-home-data";
+    const TELEGRAM_AUTH_URL =
+      "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/telegram-auth";
 
-  const toast = document.getElementById("toast");
+    const GET_HOME_DATA_URL =
+      "https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/get-home-data";
 
-  let currentUser = null;
-  let currentWallet = null;
-  let homeVideos = [];
+    const toast =
+      document.getElementById("toast");
 
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add("show");
+    let currentUser = null;
+    let currentWallet = null;
 
-    window.setTimeout(function () {
-      toast.classList.remove("show");
-    }, 2200);
-  }
+    let homeVideos = [];
+    let availableTasks = [];
 
-  function setLoadingState() {
-    document.getElementById("welcomeText").textContent =
-      "Connecting your account...";
+    function showToast(message) {
+      toast.textContent = message;
 
-    document.getElementById("coinBalance").textContent = "—";
-    document.getElementById("taskCount").textContent = "—";
-    document.getElementById("videoCount").textContent = "—";
-  }
+      toast.classList.add("show");
 
-  function setTelegramProfile(user) {
-    if (!user) {
-      return;
+      window.setTimeout(function () {
+        toast.classList.remove("show");
+      }, 2200);
     }
 
-    const displayName =
-      user.first_name ||
-      user.username ||
-      "User";
+    function getDisplayName(user) {
+      if (!user) {
+        return "User";
+      }
 
-    document.getElementById("welcomeText").textContent =
-      "Welcome, " + displayName;
-
-    const avatar =
-      document.getElementById("avatar");
-
-    avatar.textContent = "";
-
-    if (user.photo_url) {
-      const image =
-        document.createElement("img");
-
-      image.src = user.photo_url;
-      image.alt = "Profile";
-
-      image.onerror = function () {
-        avatar.textContent =
-          displayName.charAt(0).toUpperCase();
-      };
-
-      avatar.appendChild(image);
-    } else {
-      avatar.textContent =
-        displayName.charAt(0).toUpperCase();
-    }
-  }
-
-  function updateAccountUI(data) {
-    currentUser = data.user || null;
-    currentWallet = data.wallet || null;
-
-    if (currentUser) {
-      setTelegramProfile(currentUser);
+      return (
+        user.first_name ||
+        user.username ||
+        "User"
+      );
     }
 
-    if (currentWallet) {
+    function setLoadingState() {
+      document.getElementById(
+        "welcomeText"
+      ).textContent =
+        "Connecting your account...";
+
+      document.getElementById(
+        "coinBalance"
+      ).textContent = "—";
+
+      document.getElementById(
+        "taskCount"
+      ).textContent = "—";
+
+      document.getElementById(
+        "videoCount"
+      ).textContent = "—";
+    }
+
+    function setAvatarContent(
+      container,
+      user
+    ) {
+      if (!container || !user) {
+        return;
+      }
+
+      const displayName =
+        getDisplayName(user);
+
+      container.innerHTML = "";
+
+      if (user.photo_url) {
+        const image =
+          document.createElement("img");
+
+        image.src = user.photo_url;
+
+        image.alt = "Profile";
+
+        image.onerror = function () {
+          container.innerHTML = "";
+
+          container.textContent =
+            displayName
+              .charAt(0)
+              .toUpperCase();
+        };
+
+        container.appendChild(image);
+      } else {
+        container.textContent =
+          displayName
+            .charAt(0)
+            .toUpperCase();
+      }
+    }
+
+    function setTelegramProfile(user) {
+      if (!user) {
+        return;
+      }
+
+      const displayName =
+        getDisplayName(user);
+
+      document.getElementById(
+        "welcomeText"
+      ).textContent =
+        "Welcome, " + displayName;
+
+      setAvatarContent(
+        document.getElementById(
+          "avatar"
+        ),
+        user
+      );
+
+      setAvatarContent(
+        document.getElementById(
+          "profileAvatar"
+        ),
+        user
+      );
+
+      document.getElementById(
+        "profileName"
+      ).textContent = displayName;
+
+      const username =
+        user.username
+          ? "@" + user.username
+          : "Telegram Account";
+
+      document.getElementById(
+        "profileUsername"
+      ).textContent = username;
+
+      document.getElementById(
+        "profileTelegramId"
+      ).textContent =
+        user.telegram_id ||
+        user.id ||
+        "—";
+
+      document.getElementById(
+        "profileUsernameValue"
+      ).textContent =
+        user.username
+          ? "@" + user.username
+          : "Not set";
+    }
+
+    function updateAccountUI(data) {
+      currentUser =
+        data.user || null;
+
+      currentWallet =
+        data.wallet || null;
+
+      if (currentUser) {
+        setTelegramProfile(
+          currentUser
+        );
+      }
+
+      const coinBalance =
+        currentWallet
+          ? Number(
+              currentWallet
+                .coin_balance || 0
+            )
+          : 0;
+
+      const formattedBalance =
+        coinBalance.toLocaleString();
+
       document.getElementById(
         "coinBalance"
       ).textContent =
-        Number(
-          currentWallet.coin_balance || 0
-        ).toLocaleString();
-    } else {
+        formattedBalance;
+
       document.getElementById(
-        "coinBalance"
-      ).textContent = "0";
-    }
-  }
+        "walletBalance"
+      ).textContent =
+        formattedBalance;
 
-  function getVideoCategory(video) {
-    if (
-      video.video_categories &&
-      video.video_categories.name
+      document.getElementById(
+        "profileCoinBalance"
+      ).textContent =
+        formattedBalance;
+    }
+
+    function getVideoCategory(video) {
+      if (
+        video.video_categories &&
+        video.video_categories.name
+      ) {
+        return (
+          video.video_categories.name
+        );
+      }
+
+      return "Video";
+    }
+
+    function createVideoCard(
+      video,
+      index
     ) {
-      return video.video_categories.name;
-    }
-
-    return "Video";
-  }
-
-  function renderVideos(videos) {
-    const videoGrid =
-      document.querySelector(".video-grid");
-
-    if (!videoGrid) {
-      return;
-    }
-
-    videoGrid.innerHTML = "";
-
-    if (!videos.length) {
-      videoGrid.innerHTML = `
-        <div style="
-          grid-column: 1 / -1;
-          padding: 28px 18px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 19px;
-          background: rgba(16,21,33,0.9);
-          text-align: center;
-          color: #9299aa;
-          font-size: 12px;
-        ">
-          No videos available yet.
-        </div>
-      `;
-
-      return;
-    }
-
-    videos.forEach(function (video, index) {
       const card =
-        document.createElement("article");
+        document.createElement(
+          "article"
+        );
 
       card.className = "video-card";
 
       card.dataset.title =
         video.title || "";
-
-      card.dataset.videoId =
-        video.id || "";
 
       const thumbnail =
         document.createElement("div");
@@ -1005,32 +1666,45 @@
 
       if (video.is_featured) {
         const badge =
-          document.createElement("span");
+          document.createElement(
+            "span"
+          );
 
-        badge.className = "new-badge";
-        badge.textContent = "FEATURED";
+        badge.className =
+          "new-badge";
 
-        thumbnail.appendChild(badge);
+        badge.textContent =
+          "FEATURED";
+
+        thumbnail.appendChild(
+          badge
+        );
       }
 
       const playButton =
         document.createElement("div");
 
-      playButton.className = "play-button";
+      playButton.className =
+        "play-button";
+
       playButton.textContent = "▶";
 
-      thumbnail.appendChild(playButton);
+      thumbnail.appendChild(
+        playButton
+      );
 
       const cardBody =
         document.createElement("div");
 
-      cardBody.className = "card-body";
+      cardBody.className =
+        "card-body";
 
       const title =
         document.createElement("h4");
 
       title.textContent =
-        video.title || "Untitled Video";
+        video.title ||
+        "Untitled Video";
 
       const meta =
         document.createElement("p");
@@ -1042,23 +1716,14 @@
         metaText += " · Premium";
       }
 
-      if (
-        Number(video.eligible_reward_coins || 0) > 0
-      ) {
-        metaText +=
-          " · +" +
-          Number(
-            video.eligible_reward_coins
-          ).toLocaleString() +
-          " coins";
-      }
-
       meta.textContent = metaText;
 
       cardBody.appendChild(title);
+
       cardBody.appendChild(meta);
 
       card.appendChild(thumbnail);
+
       card.appendChild(cardBody);
 
       card.addEventListener(
@@ -1068,314 +1733,792 @@
         }
       );
 
-      videoGrid.appendChild(card);
-    });
-  }
-
-  function handleVideoClick(video) {
-    if (!currentUser) {
-      showToast(
-        "Please wait for account connection."
-      );
-
-      return;
+      return card;
     }
 
-    showToast(
-      "Video unlock system is coming next."
-    );
-
-    console.log(
-      "Selected video:",
-      video
-    );
-  }
-
-  async function loadHomeData() {
-    try {
-      const response = await fetch(
-        GET_HOME_DATA_URL,
-        {
-          method: "GET"
-        }
-      );
-
-      const data = await response.json();
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-        throw new Error(
-          data.error ||
-          "Home data loading failed"
-        );
-      }
-
-      homeVideos =
-        Array.isArray(data.videos)
-          ? data.videos
-          : [];
-
-      const stats =
-        data.stats || {};
-
-      document.getElementById(
-        "videoCount"
-      ).textContent =
-        Number(
-          stats.video_count || 0
-        ).toLocaleString();
-
-      document.getElementById(
-        "taskCount"
-      ).textContent =
-        Number(
-          stats.task_count || 0
-        ).toLocaleString();
-
-      renderVideos(homeVideos);
-
-      console.log(
-        "Home data:",
-        data
-      );
-    } catch (error) {
-      console.error(
-        "Home data error:",
-        error
-      );
-
-      document.getElementById(
-        "videoCount"
-      ).textContent = "0";
-
-      document.getElementById(
-        "taskCount"
-      ).textContent = "0";
-
-      renderVideos([]);
-
-      showToast(
-        "Videos could not be loaded"
-      );
-    }
-  }
-
-  async function authenticateTelegram() {
-    try {
-      if (
-        !window.Telegram ||
-        !window.Telegram.WebApp
-      ) {
-        throw new Error(
-          "Telegram WebApp is unavailable"
-        );
-      }
-
-      const tg = window.Telegram.WebApp;
-
-      tg.ready();
-
-      if (
-        typeof tg.expand === "function"
-      ) {
-        tg.expand();
-      }
-
-      const telegramUser =
-        tg.initDataUnsafe &&
-        tg.initDataUnsafe.user
-          ? tg.initDataUnsafe.user
-          : null;
-
-      if (telegramUser) {
-        setTelegramProfile(telegramUser);
-      }
-
-      const initData = tg.initData;
-
-      if (!initData) {
-        throw new Error(
-          "Telegram initData is missing"
-        );
-      }
-
-      setLoadingState();
-
-      const response = await fetch(
-        TELEGRAM_AUTH_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            initData: initData
-          })
-        }
-      );
-
-      const data = await response.json();
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-        throw new Error(
-          data.error ||
-          "Authentication failed"
-        );
-      }
-
-      updateAccountUI(data);
-
-      showToast(
-        "Account connected successfully"
-      );
-
-      console.log(
-        "Authenticated account:",
-        data
-      );
-
-      await loadHomeData();
-    } catch (error) {
-      console.error(
-        "Telegram authentication error:",
-        error
-      );
-
-      document.getElementById(
-        "coinBalance"
-      ).textContent = "0";
-
-      document.getElementById(
-        "taskCount"
-      ).textContent = "0";
-
-      document.getElementById(
-        "videoCount"
-      ).textContent = "0";
-
-      const tg =
-        window.Telegram &&
-        window.Telegram.WebApp
-          ? window.Telegram.WebApp
-          : null;
-
-      if (
-        tg &&
-        tg.initDataUnsafe &&
-        tg.initDataUnsafe.user
-      ) {
-        setTelegramProfile(
-          tg.initDataUnsafe.user
-        );
-      } else {
+    function renderVideos(
+      videos,
+      containerId
+    ) {
+      const container =
         document.getElementById(
-          "welcomeText"
-        ).textContent =
-          "Open inside Telegram";
+          containerId
+        );
+
+      if (!container) {
+        return;
+      }
+
+      container.innerHTML = "";
+
+      if (!videos.length) {
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+        empty.className =
+          "empty-state";
+
+        empty.style.gridColumn =
+          "1 / -1";
+
+        empty.textContent =
+          "No videos available yet.";
+
+        container.appendChild(empty);
+
+        return;
+      }
+
+      videos.forEach(
+        function (video, index) {
+          container.appendChild(
+            createVideoCard(
+              video,
+              index
+            )
+          );
+        }
+      );
+    }
+
+    function getTaskIcon(taskType) {
+      const icons = {
+        telegram: "✈",
+        visit: "↗",
+        like: "♥",
+        follow: "+",
+        subscribe: "▶",
+        comment: "●",
+        social: "◆",
+        custom: "✓"
+      };
+
+      return (
+        icons[taskType] || "✓"
+      );
+    }
+
+    function getTaskTypeName(
+      taskType
+    ) {
+      const names = {
+        telegram: "Join Telegram",
+        visit: "Visit Link",
+        like: "Like",
+        follow: "Follow",
+        subscribe: "Subscribe",
+        comment: "Comment",
+        social: "Social Task",
+        custom: "Custom Task"
+      };
+
+      return (
+        names[taskType] ||
+        "Task"
+      );
+    }
+
+    function openTask(task) {
+      if (!task.task_url) {
+        showToast(
+          "Task link is unavailable."
+        );
+
+        return;
+      }
+
+      try {
+        const tg =
+          window.Telegram &&
+          window.Telegram.WebApp
+            ? window.Telegram.WebApp
+            : null;
+
+        if (
+          tg &&
+          task.task_url.startsWith(
+            "https://t.me/"
+          ) &&
+          typeof tg.openTelegramLink ===
+            "function"
+        ) {
+          tg.openTelegramLink(
+            task.task_url
+          );
+
+          return;
+        }
+
+        if (
+          tg &&
+          typeof tg.openLink ===
+            "function"
+        ) {
+          tg.openLink(
+            task.task_url
+          );
+
+          return;
+        }
+
+        window.open(
+          task.task_url,
+          "_blank",
+          "noopener,noreferrer"
+        );
+      } catch (error) {
+        console.error(
+          "Task open error:",
+          error
+        );
+
+        showToast(
+          "Task link could not be opened."
+        );
+      }
+    }
+
+    function renderTasks(tasks) {
+      const taskList =
+        document.getElementById(
+          "taskList"
+        );
+
+      taskList.innerHTML = "";
+
+      document.getElementById(
+        "taskAvailableText"
+      ).textContent =
+        tasks.length +
+        " available";
+
+      if (!tasks.length) {
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+        empty.className =
+          "empty-state";
+
+        empty.textContent =
+          "No tasks available yet.";
+
+        taskList.appendChild(empty);
+
+        return;
+      }
+
+      tasks.forEach(function (task) {
+        const card =
+          document.createElement(
+            "article"
+          );
+
+        card.className =
+          "task-card";
+
+        const top =
+          document.createElement("div");
+
+        top.className =
+          "task-top";
+
+        const icon =
+          document.createElement("div");
+
+        icon.className =
+          "task-icon";
+
+        icon.textContent =
+          getTaskIcon(
+            task.task_type
+          );
+
+        const info =
+          document.createElement("div");
+
+        info.className =
+          "task-info";
+
+        const title =
+          document.createElement("h4");
+
+        title.textContent =
+          task.title ||
+          "Untitled Task";
+
+        const description =
+          document.createElement("p");
+
+        description.textContent =
+          task.description ||
+          getTaskTypeName(
+            task.task_type
+          );
+
+        info.appendChild(title);
+
+        info.appendChild(description);
+
+        top.appendChild(icon);
+
+        top.appendChild(info);
+
+        const meta =
+          document.createElement("div");
+
+        meta.className =
+          "task-meta";
+
+        const reward =
+          document.createElement(
+            "span"
+          );
+
+        reward.className =
+          "reward-badge";
+
+        reward.textContent =
+          "+" +
+          Number(
+            task.reward_coins || 0
+          ).toLocaleString() +
+          " coins";
+
+        const openButton =
+          document.createElement(
+            "button"
+          );
+
+        openButton.type = "button";
+
+        openButton.className =
+          "task-button";
+
+        openButton.textContent =
+          "Open Task";
+
+        openButton.addEventListener(
+          "click",
+          function () {
+            openTask(task);
+          }
+        );
+
+        meta.appendChild(reward);
+
+        meta.appendChild(openButton);
+
+        card.appendChild(top);
+
+        card.appendChild(meta);
+
+        taskList.appendChild(card);
+      });
+    }
+
+    function handleVideoClick(video) {
+      if (!currentUser) {
+        showToast(
+          "Please wait for account connection."
+        );
+
+        return;
       }
 
       showToast(
-        "Account connection failed"
+        "Video unlock system is coming next."
+      );
+
+      console.log(
+        "Selected video:",
+        video
       );
     }
-  }
 
-  document
-    .getElementById("exploreButton")
-    .addEventListener(
-      "click",
-      function () {
+    function showPage(
+      pageId,
+      navButton
+    ) {
+      document
+        .querySelectorAll(".page")
+        .forEach(function (page) {
+          page.classList.remove(
+            "active"
+          );
+        });
+
+      document
+        .querySelectorAll(
+          ".nav-button"
+        )
+        .forEach(function (button) {
+          button.classList.remove(
+            "active"
+          );
+        });
+
+      const page =
+        document.getElementById(
+          pageId
+        );
+
+      if (page) {
+        page.classList.add(
+          "active"
+        );
+      }
+
+      if (navButton) {
+        navButton.classList.add(
+          "active"
+        );
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function filterSearchVideos() {
+      const query =
         document
           .getElementById(
-            "featuredSection"
+            "searchPageInput"
           )
-          .scrollIntoView({
-            behavior: "smooth"
-          });
-      }
-    );
+          .value
+          .trim()
+          .toLowerCase();
 
-  document
-    .getElementById("searchInput")
-    .addEventListener(
-      "input",
-      function (event) {
-        const query =
-          event.target.value
-            .trim()
-            .toLowerCase();
+      const filtered =
+        homeVideos.filter(
+          function (video) {
+            const title =
+              (
+                video.title || ""
+              ).toLowerCase();
 
-        const cards =
-          document.querySelectorAll(
-            ".video-card"
+            const description =
+              (
+                video.description || ""
+              ).toLowerCase();
+
+            return (
+              title.includes(query) ||
+              description.includes(query)
+            );
+          }
+        );
+
+      renderVideos(
+        filtered,
+        "searchVideoGrid"
+      );
+    }
+
+    async function loadHomeData() {
+      try {
+        const response =
+          await fetch(
+            GET_HOME_DATA_URL,
+            {
+              method: "GET"
+            }
           );
 
-        cards.forEach(function (card) {
-          const title =
-            (
-              card.dataset.title || ""
-            ).toLowerCase();
+        const data =
+          await response.json();
 
-          card.style.display =
-            title.includes(query)
-              ? ""
-              : "none";
-        });
+        if (
+          !response.ok ||
+          !data.success
+        ) {
+          throw new Error(
+            data.error ||
+            "Home data loading failed"
+          );
+        }
+
+        homeVideos =
+          Array.isArray(data.videos)
+            ? data.videos
+            : [];
+
+        availableTasks =
+          Array.isArray(data.tasks)
+            ? data.tasks
+            : [];
+
+        const stats =
+          data.stats || {};
+
+        document.getElementById(
+          "videoCount"
+        ).textContent =
+          Number(
+            stats.video_count || 0
+          ).toLocaleString();
+
+        document.getElementById(
+          "taskCount"
+        ).textContent =
+          Number(
+            stats.task_count || 0
+          ).toLocaleString();
+
+        renderVideos(
+          homeVideos,
+          "homeVideoGrid"
+        );
+
+        renderVideos(
+          homeVideos,
+          "searchVideoGrid"
+        );
+
+        renderTasks(
+          availableTasks
+        );
+
+        console.log(
+          "Home data:",
+          data
+        );
+      } catch (error) {
+        console.error(
+          "Home data error:",
+          error
+        );
+
+        document.getElementById(
+          "videoCount"
+        ).textContent = "0";
+
+        document.getElementById(
+          "taskCount"
+        ).textContent = "0";
+
+        homeVideos = [];
+
+        availableTasks = [];
+
+        renderVideos(
+          [],
+          "homeVideoGrid"
+        );
+
+        renderVideos(
+          [],
+          "searchVideoGrid"
+        );
+
+        renderTasks([]);
+
+        showToast(
+          error.message ||
+          "Content could not be loaded"
+        );
       }
-    );
+    }
 
-  document
-    .querySelectorAll("[data-page]")
-    .forEach(function (button) {
-      button.addEventListener(
+    async function authenticateTelegram() {
+      try {
+        if (
+          !window.Telegram ||
+          !window.Telegram.WebApp
+        ) {
+          throw new Error(
+            "Telegram WebApp is unavailable"
+          );
+        }
+
+        const tg =
+          window.Telegram.WebApp;
+
+        tg.ready();
+
+        if (
+          typeof tg.expand ===
+            "function"
+        ) {
+          tg.expand();
+        }
+
+        const telegramUser =
+          tg.initDataUnsafe &&
+          tg.initDataUnsafe.user
+            ? tg.initDataUnsafe.user
+            : null;
+
+        if (telegramUser) {
+          setTelegramProfile(
+            telegramUser
+          );
+        }
+
+        const initData =
+          tg.initData;
+
+        if (!initData) {
+          throw new Error(
+            "Telegram initData is missing"
+          );
+        }
+
+        setLoadingState();
+
+        const response =
+          await fetch(
+            TELEGRAM_AUTH_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                initData: initData
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (
+          !response.ok ||
+          !data.success
+        ) {
+          throw new Error(
+            data.error ||
+            "Authentication failed"
+          );
+        }
+
+        updateAccountUI(data);
+
+        await loadHomeData();
+
+        showToast(
+          "Account connected successfully"
+        );
+      } catch (error) {
+        console.error(
+          "Telegram authentication error:",
+          error
+        );
+
+        const tg =
+          window.Telegram &&
+          window.Telegram.WebApp
+            ? window.Telegram.WebApp
+            : null;
+
+        if (
+          tg &&
+          tg.initDataUnsafe &&
+          tg.initDataUnsafe.user
+        ) {
+          setTelegramProfile(
+            tg.initDataUnsafe.user
+          );
+        } else {
+          document.getElementById(
+            "welcomeText"
+          ).textContent =
+            "Open inside Telegram";
+        }
+
+        document.getElementById(
+          "coinBalance"
+        ).textContent = "0";
+
+        document.getElementById(
+          "walletBalance"
+        ).textContent = "0";
+
+        document.getElementById(
+          "profileCoinBalance"
+        ).textContent = "0";
+
+        await loadHomeData();
+
+        showToast(
+          "Account connection failed"
+        );
+      }
+    }
+
+    document
+      .querySelectorAll(
+        ".nav-button[data-page]"
+      )
+      .forEach(function (button) {
+        button.addEventListener(
+          "click",
+          function () {
+            showPage(
+              button.dataset.page,
+              button
+            );
+          }
+        );
+      });
+
+    document
+      .getElementById(
+        "exploreButton"
+      )
+      .addEventListener(
         "click",
         function () {
-          showToast(
-            button.dataset.page +
-            " page is coming next."
+          document
+            .getElementById(
+              "featuredSection"
+            )
+            .scrollIntoView({
+              behavior: "smooth"
+            });
+        }
+      );
+
+    document
+      .getElementById(
+        "homeSearchInput"
+      )
+      .addEventListener(
+        "input",
+        function (event) {
+          const query =
+            event.target.value
+              .trim()
+              .toLowerCase();
+
+          const filtered =
+            homeVideos.filter(
+              function (video) {
+                return (
+                  video.title || ""
+                )
+                  .toLowerCase()
+                  .includes(query);
+              }
+            );
+
+          renderVideos(
+            filtered,
+            "homeVideoGrid"
           );
         }
       );
-    });
 
-  document
-    .getElementById("seeAllButton")
-    .addEventListener(
-      "click",
-      function () {
-        showToast(
-          homeVideos.length +
-          " videos available."
-        );
-      }
-    );
+    document
+      .getElementById(
+        "searchPageInput"
+      )
+      .addEventListener(
+        "input",
+        filterSearchVideos
+      );
 
-  document
-    .getElementById("avatar")
-    .addEventListener(
-      "click",
-      function () {
-        if (currentUser) {
-          showToast(
-            "Telegram ID: " +
-            currentUser.telegram_id
+    document
+      .getElementById(
+        "seeAllButton"
+      )
+      .addEventListener(
+        "click",
+        function () {
+          const searchNav =
+            document.querySelector(
+              '[data-page="searchPage"]'
+            );
+
+          showPage(
+            "searchPage",
+            searchNav
           );
-        } else {
-          showToast(
-            "Profile is loading."
+
+          renderVideos(
+            homeVideos,
+            "searchVideoGrid"
           );
         }
-      }
-    );
+      );
 
-  authenticateTelegram();
-        </script>
+    document
+      .getElementById(
+        "avatar"
+      )
+      .addEventListener(
+        "click",
+        function () {
+          const profileNav =
+            document.querySelector(
+              '[data-page="profilePage"]'
+            );
+
+          showPage(
+            "profilePage",
+            profileNav
+          );
+        }
+      );
+
+    document
+      .getElementById(
+        "withdrawButton"
+      )
+      .addEventListener(
+        "click",
+        function () {
+          const account =
+            document
+              .getElementById(
+                "withdrawAccount"
+              )
+              .value
+              .trim();
+
+          const amount =
+            Number(
+              document.getElementById(
+                "withdrawAmount"
+              ).value
+            );
+
+          if (!account) {
+            showToast(
+              "Enter payment account number."
+            );
+
+            return;
+          }
+
+          if (
+            !Number.isFinite(amount) ||
+            amount <= 0
+          ) {
+            showToast(
+              "Enter a valid coin amount."
+            );
+
+            return;
+          }
+
+          showToast(
+            "Withdrawal backend is not connected yet."
+          );
+        }
+      );
+
+    authenticateTelegram();
+  </script>
+
 </body>
 </html>
