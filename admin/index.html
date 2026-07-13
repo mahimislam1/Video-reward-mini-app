@@ -789,12 +789,11 @@
           <div class="section-head">
             <h2>Withdrawal Requests</h2>
           </div>
-
-          <div class="panel">
-            <div class="empty">
-              No pending withdrawal requests.
-            </div>
-          </div>
+<div class="panel">
+  <div id="withdrawList">
+    Loading withdrawals...
+  </div>
+</div>
 
         </div>
 
@@ -829,6 +828,8 @@
 
     const taskList =
       document.getElementById("taskList");
+    const withdrawList =
+document.getElementById("withdrawList");
 
     let videoSaving = false;
     let taskSaving = false;
