@@ -37,8 +37,22 @@ button,input,select{font:inherit}button{cursor:pointer}.app{max-width:760px;marg
 </section>
 <section class="page" id="searchPage"><h2 class="page-title">Search</h2><p class="subtitle">Find videos from the available collection.</p><div style="margin-top:18px"><label class="search-box"><span>⌕</span><input id="searchPageInput" type="search" placeholder="Search videos..."></label></div><section class="section"><div class="video-grid" id="searchVideoGrid"></div></section></section>
 <section class="page" id="earnPage"><h2 class="page-title">Earn</h2><p class="subtitle">Complete eligible tasks and follow the task instructions.</p><section class="section"><div class="section-head"><h3>Available Tasks</h3><button id="taskAvailableText">0 available</button></div><div class="task-list" id="taskList"></div></section></section>
-<section class="page" id="walletPage"><h2 class="page-title">Wallet</h2><p class="subtitle">View your balance and withdrawal options.</p><div class="wallet"><span>AVAILABLE BALANCE</span><strong id="walletBalance">0</strong><p>Coins</p></div><div class="panel"><h3>Withdraw Balance</h3><p>Withdrawal backend is not connected yet.</p><div class="field"><label>PAYMENT METHOD</label><select id="withdrawMethod"><option value="bkash">bKash</option><option value="nagad">Nagad</option></select></div><div class="field"><label>ACCOUNT NUMBER</label><input id="withdrawAccount" type="tel" placeholder="01XXXXXXXXX"></div><div class="field"><label>COIN AMOUNT</label><input id="withdrawAmount" type="number" min="1" placeholder="Enter coin amount"></div><button class="wide" id="withdrawButton">Request Withdrawal</button></div></section>
-<section class="page" id="profilePage"><h2 class="page-title">Profile</h2><p class="subtitle">Your connected Telegram account.</p><div class="profile-card"><div class="profile-avatar" id="profileAvatar">U</div><h3 id="profileName">User</h3><p id="profileUsername">Telegram Account</p></div><div class="info-list"><div class="info-row"><span>TELEGRAM ID</span><strong id="profileTelegramId">—</strong></div><div class="info-row"><span>USERNAME</span><strong id="profileUsernameValue">—</strong></div><div class="info-row"><span>COIN BALANCE</span><strong id="profileCoinBalance">0</strong></div><div class="info-row"><span>ACCOUNT STATUS</span><strong id="profileStatus">Connected</strong></div></div></section>
+<section class="page" id="walletPage"><h2 class="page-title">Wallet</h2><p class="subtitle">View your balance and withdrawal options.</p><div class="wallet">
+    <span>AVAILABLE BALANCE</span>
+
+    <strong id="walletBalance">0</strong>
+
+    <p>Coins</p>
+
+    <p style="margin-top:10px;color:#74e7ac;font-size:12px;">
+        100 Coins = ৳1
+    </p>
+
+    <p style="color:#fdb022;font-size:11px;">
+        Minimum Withdraw: 10000 Coins (৳100)
+    </p>
+</div><div class="panel"><h3>Withdraw Balance</h3><p>Withdrawal backend is not connected yet.</p><div class="field"><label>PAYMENT METHOD</label><select id="withdrawMethod"><option value="bkash">bKash</option><option value="nagad">Nagad</option></select></div><div class="field"><label>ACCOUNT NUMBER</label><input id="withdrawAccount" type="tel" placeholder="01XXXXXXXXX"></div><div class="field"><label>COIN AMOUNT</label><input id="withdrawAmount" type="number" min="1" placeholder="Enter coin amount"></div><button class="wide" id="withdrawButton">Request Withdrawal</button></div></section>
+<section class="page" id="profilePage"><h2 class="page-title">Profile</h2><p class="subtitle">Your connected Telegram account.</p><div p="profile-card"><div class="profile-avatar" id="profileAvatar">U</div><h3 id="profileName">User</h3><p id="profileUsername">Telegram Account</p></div><div class="info-list"><div class="info-row"><span>TELEGRAM ID</span><strong id="profileTelegramId">—</strong></div><div class="info-row"><span>USERNAME</span><strong id="profileUsernameValue">—</strong></div><div class="info-row"><span>COIN BALANCE</span><strong id="profileCoinBalance">0</strong></div><div class="info-row"><span>ACCOUNT STATUS</span><strong id="profileStatus">Connected</strong></div></div></section>
 </div></main>
 <nav class="bottom-nav"><button class="nav-button active" data-page="homePage"><span class="nav-icon">⌂</span><span>Home</span></button><button class="nav-button" data-page="searchPage"><span class="nav-icon">⌕</span><span>Search</span></button><button class="nav-button" data-page="earnPage"><span class="nav-icon">◆</span><span>Earn</span></button><button class="nav-button" data-page="walletPage"><span class="nav-icon">◈</span><span>Wallet</span></button><button class="nav-button" data-page="profilePage"><span class="nav-icon">●</span><span>Profile</span></button></nav>
 <script>
