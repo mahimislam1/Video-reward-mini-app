@@ -71,8 +71,79 @@ document.getElementById("homeSearchInput").oninput=e=>renderVideos(filtered(e.ta
 document.getElementById("searchPageInput").oninput=e=>renderVideos(filtered(e.target.value),"searchVideoGrid");
 document.getElementById("seeAllButton").onclick=()=>{const b=document.querySelector('[data-page="searchPage"]');showPage("searchPage",b);renderVideos(homeVideos,"searchVideoGrid")};
 document.getElementById("avatar").onclick=()=>{const b=document.querySelector('[data-page="profilePage"]');showPage("profilePage",b)};
-document.getElementById("withdrawButton").onclick=()=>{const a=document.getElementById("withdrawAccount").value.trim(),n=Number(document.getElementById("withdrawAmount").value);if(!/^01\d{9}$/.test(a)){showToast("Enter a valid 11-digit account number.");return}if(!Number.isFinite(n)||n<=0){showToast("Enter a valid coin amount.");return}const bal=currentWallet?Number(currentWallet.coin_balance||0):0;if(n>bal){showToast("Insufficient coin balance.");return}showToast("Withdrawal backend is not connected yet.")};
-auth();
+const CREATE_WITHDRAW_URL =
+"https://zjbsaalqpjicixzirfam.supabase.co/functions/v1/create-withdraw-request";
+
+document.getElementById("withdrawButton").onclick = async () => {
+
+  const method =
+    document.getElementById("withdrawMethod").value;
+
+  const account =
+    document.getElementById("withdrawAccount").value.trim();
+
+  const coins =
+    Number(document.getElementById("withdrawAmount").value);
+
+  if (!/^01\d{9}$/.test(account)) {
+    showToast("Enter a valid account number.");
+    return;
+  }
+
+  if (coins < 10000) {
+    showToast("Minimum withdrawal is 10000 coins.");
+    return;
+  }
+
+  try {
+
+    const telegram_id =
+      currentUser.telegram_id || currentUser.id;
+
+    const res = await fetch(CREATE_WITHDRAW_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+
+        telegram_id,
+
+        payment_method: method,
+
+        account_number: account,
+
+        coin_amount: coins
+
+      })
+
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      showToast(data.error);
+      return;
+    }
+
+    showToast("Withdrawal request submitted.");
+
+    document.getElementById("withdrawAmount").value = "";
+    document.getElementById("withdrawAccount").value = "";
+
+  } catch (err) {
+
+    showToast("Request failed.");
+
+    console.error(err);
+
+  }
+
+}
+  authh();
 </script>
 </body>
 </html>
