@@ -67,7 +67,88 @@ function nameOf(u){return u?(u.first_name||u.username||"User"):"User"}
 function avatar(el,u){if(!el||!u)return;const n=nameOf(u);el.innerHTML="";if(u.photo_url){const img=document.createElement("img");img.src=u.photo_url;img.alt="Profile";img.onerror=()=>{el.innerHTML="";el.textContent=n[0].toUpperCase()};el.appendChild(img)}else el.textContent=n[0].toUpperCase()}
 function setProfile(u){if(!u)return;const n=nameOf(u);document.getElementById("welcomeText").textContent="Welcome, "+n;avatar(document.getElementById("avatar"),u);avatar(document.getElementById("profileAvatar"),u);document.getElementById("profileName").textContent=n;document.getElementById("profileUsername").textContent=u.username?"@"+u.username:"Telegram Account";document.getElementById("profileTelegramId").textContent=u.telegram_id||u.id||"—";document.getElementById("profileUsernameValue").textContent=u.username?"@"+u.username:"Not set"}
 function setBalance(){const b=currentWallet?Number(currentWallet.coin_balance||0):0,f=b.toLocaleString();["coinBalance","walletBalance","profileCoinBalance"].forEach(id=>document.getElementById(id).textContent=f)}
-function videoCard(v,i){const c=document.createElement("article");c.className="video-card";const t=document.createElement("div");t.className="thumb";if(v.thumbnail_url)t.style.backgroundImage="linear-gradient(rgba(5,8,14,.15),rgba(5,8,14,.35)),url('"+v.thumbnail_url+"')";if(v.is_featured){const b=document.createElement("span");b.className="featured";b.textContent="FEATURED";t.appendChild(b)}const p=document.createElement("div");p.className="play";p.textContent="▶";t.appendChild(p);const body=document.createElement("div");body.className="video-body";const h=document.createElement("h4");h.textContent=v.title||"Untitled Video";const m=document.createElement("p");let x=v.video_categories&&v.video_categories.name?v.video_categories.name:"Video";if(v.is_premium)x+=" · Premium";m.textContent=x;body.append(h,m);c.append(t,body);c.onclick=()=>showToast(currentUser?"Video unlock system is coming next.":"Please wait for account connection.");return c}
+function videoCard(v,i){
+
+  const c=document.createElement("article");
+  c.className="video-card";
+
+  const t=document.createElement("div");
+  t.className="thumb";
+
+  if(v.thumbnail_url){
+    t.style.backgroundImage=
+      "linear-gradient(rgba(5,8,14,.15),rgba(5,8,14,.35)),url('"+v.thumbnail_url+"')";
+  }
+
+  if(v.is_featured){
+    const b=document.createElement("span");
+    b.className="featured";
+    b.textContent="FEATURED";
+    t.appendChild(b);
+  }
+
+  const p=document.createElement("div");
+  p.className="play";
+  p.textContent="▶";
+  t.appendChild(p);
+
+  const body=document.createElement("div");
+  body.className="video-body";
+
+  const h=document.createElement("h4");
+  h.textContent=v.title||"Untitled Video";
+
+  const m=document.createElement("p");
+
+  let x=v.video_categories&&v.video_categories.name
+    ?v.video_categories.name
+    :"Video";
+
+  if(v.is_premium){
+    x+=" · Premium";
+  }
+
+  m.textContent=x;
+
+  body.append(h,m);
+
+  c.append(t,body);
+
+  c.onclick = async () => {
+
+    if (!currentUser) {
+      showToast("Please login first.");
+      return;
+    }
+
+    showToast("Loading ad...");
+
+    // Monetag Rewarded Ad এখানে বসবে
+
+    setTimeout(() => {
+
+      if(window.Telegram && Telegram.WebApp){
+
+        Telegram.WebApp.openLink(
+          v.final_video_url
+        );
+
+      }else{
+
+        window.open(
+          v.final_video_url,
+          "_blank"
+        );
+
+      }
+
+    },1000);
+
+  };
+
+  return c;
+
+}
 function renderVideos(arr,id){const box=document.getElementById(id);box.innerHTML="";if(!arr.length){const e=document.createElement("div");e.className="empty";e.style.gridColumn="1/-1";e.textContent="No videos available yet.";box.appendChild(e);return}arr.forEach((v,i)=>box.appendChild(videoCard(v,i)))}
 function getTelegramId(){if(currentUser)return String(currentUser.telegram_id||currentUser.id||"");const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null,u=tg&&tg.initDataUnsafe?tg.initDataUnsafe.user:null;return u?String(u.id||""):""}
 async function taskRequest(taskId,action){const telegram_id=getTelegramId();if(!telegram_id)throw new Error("Telegram account is not connected.");const res=await fetch(CLAIM_TASK_REWARD_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegram_id,task_id:taskId,action})});const data=await res.json();if(!res.ok||!data.success){const e=new Error(data.error||"Task request failed");e.data=data;throw e}return data}
