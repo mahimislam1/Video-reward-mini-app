@@ -153,12 +153,15 @@ console.log(result);
                 Telegram.WebApp.openLink(url);
 
             }
+} catch (err) {
 
-        } else {
+    console.error("Monetag Error:", err);
 
-            window.open(url, "_blank");
+    alert(JSON.stringify(err));
 
-        }
+    showToast("Ad was skipped.");
+
+    }
 
     } catch (err) {
 
