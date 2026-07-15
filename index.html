@@ -6,6 +6,11 @@
 <meta name="theme-color" content="#070A11">
 <title>Video and Money</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script
+    src="//libtl.com/sdk.js"
+    data-zone="11301377"
+    data-sdk="show_11301377">
+    </script>
 <style>
 :root{--bg:#070a11;--card:#101521;--card2:#171d2b;--p:#7c5cff;--p2:#a56cff;--cyan:#39d5ff;--text:#fff;--muted:#9299aa;--border:rgba(255,255,255,.08)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -113,50 +118,55 @@ function videoCard(v,i){
   body.append(h,m);
 
   c.append(t,body);
-
-  c.onclick = async () => {
+c.onclick = async () => {
 
     if (!currentUser) {
-      showToast("Please login first.");
-      return;
+        showToast("Please login first.");
+        return;
     }
 
-    showToast("Loading ad...");
+    const url = (v.final_video_url || "").trim();
 
-    // Monetag Rewarded Ad এখানে বসবে
+    if (!url) {
+        showToast("Video link not found.");
+        return;
+    }
 
-    setTimeout(() => {
+    try {
 
-const url = (v.final_video_url || "").trim();
+        showToast("Loading ad...");
 
-if (!url) {
-    showToast("Video link not found.");
-    return;
-}
+        await show_11301377();
 
-if (window.Telegram && Telegram.WebApp) {
+        if (window.Telegram && Telegram.WebApp) {
 
-    if (
-        url.startsWith("https://t.me/") ||
-        url.startsWith("https://telegram.me/")
-    ) {
+            if (
+                url.startsWith("https://t.me/") ||
+                url.startsWith("https://telegram.me/")
+            ) {
 
-        Telegram.WebApp.openTelegramLink(url);
+                Telegram.WebApp.openTelegramLink(url);
 
-    } else {
+            } else {
 
-        Telegram.WebApp.openLink(url);
+                Telegram.WebApp.openLink(url);
+
+            }
+
+        } else {
+
+            window.open(url, "_blank");
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+        showToast("Ad was skipped.");
 
     }
 
-} else {
-
-    window.open(url, "_blank");
-
-}
-    },1000);
-
-  };
+};
 
   return c;
 
