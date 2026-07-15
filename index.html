@@ -130,8 +130,14 @@ c.onclick = async () => {
     if (!url) {
         showToast("Video link not found.");
         return;
+    }try {
+
+    console.log("SDK:", typeof show_11301377);
+
+    if (typeof show_11301377 !== "function") {
+        alert("SDK not loaded");
+        return;
     }
-try {
 
     showToast("Loading ad...");
 
