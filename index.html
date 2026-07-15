@@ -133,13 +133,9 @@ c.onclick = async () => {
     }
 
     try {
+showToast("Loading ad...");
 
-        showToast("Loading ad...");
-
-        const result = await show_11301377("end");
-
-console.log(result);
-});
+const result = await show_11301377();
 
 console.log(result);
 
