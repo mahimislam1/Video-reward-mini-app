@@ -127,21 +127,33 @@ function videoCard(v,i){
 
     setTimeout(() => {
 
-      if(window.Telegram && Telegram.WebApp){
+const url = (v.final_video_url || "").trim();
 
-        Telegram.WebApp.openLink(
-          v.final_video_url
-        );
+if (!url) {
+    showToast("Video link not found.");
+    return;
+}
 
-      }else{
+if (window.Telegram && Telegram.WebApp) {
 
-        window.open(
-          v.final_video_url,
-          "_blank"
-        );
+    if (
+        url.startsWith("https://t.me/") ||
+        url.startsWith("https://telegram.me/")
+    ) {
 
-      }
+        Telegram.WebApp.openTelegramLink(url);
 
+    } else {
+
+        Telegram.WebApp.openLink(url);
+
+    }
+
+} else {
+
+    window.open(url, "_blank");
+
+}
     },1000);
 
   };
