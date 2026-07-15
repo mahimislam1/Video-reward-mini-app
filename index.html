@@ -131,28 +131,35 @@ c.onclick = async () => {
         showToast("Video link not found.");
         return;
     }
+try {
 
-    try {
-showToast("Loading ad...");
+    showToast("Loading ad...");
 
-const result = await show_11301377();
+    const result = await show_11301377();
 
-console.log(result);
+    console.log(result);
 
-        if (window.Telegram && Telegram.WebApp) {
+    if (window.Telegram && Telegram.WebApp) {
 
-            if (
-                url.startsWith("https://t.me/") ||
-                url.startsWith("https://telegram.me/")
-            ) {
+        if (
+            url.startsWith("https://t.me/") ||
+            url.startsWith("https://telegram.me/")
+        ) {
 
-                Telegram.WebApp.openTelegramLink(url);
+            Telegram.WebApp.openTelegramLink(url);
 
-            } else {
+        } else {
 
-                Telegram.WebApp.openLink(url);
+            Telegram.WebApp.openLink(url);
 
-            }
+        }
+
+    } else {
+
+        window.open(url, "_blank");
+
+    }
+
 } catch (err) {
 
     console.error("Monetag Error:", err);
@@ -161,14 +168,7 @@ console.log(result);
 
     showToast("Ad was skipped.");
 
-    }
-
-    } catch (err) {
-
-        console.error(err);
-        showToast("Ad was skipped.");
-
-    }
+}
 
 };
 
