@@ -136,7 +136,11 @@ c.onclick = async () => {
 
         showToast("Loading ad...");
 
-        await show_11301377();
+        const result = await show_11301377({
+    type: "end"
+});
+
+console.log(result);
 
         if (window.Telegram && Telegram.WebApp) {
 
